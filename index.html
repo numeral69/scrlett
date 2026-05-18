@@ -15,31 +15,36 @@
     --accent:#ff3b30;
     --text:#f5eaea;
     --muted:#b9a6a6;
+    --tile:#141114;
+  }
+
+  html {
+    scroll-behavior: smooth; /* ✔ smooth section transitions */
   }
 
   body {
     font-family:'Cormorant Garamond', serif;
-    background: var(--bg);
-    color: var(--text);
+    background:var(--bg);
+    color:var(--text);
     overflow-x:hidden;
   }
 
-  /* ===== MORE OBVIOUS CINEMATIC BACKGROUND ===== */
+  /* ===== CINEMATIC BACKGROUND ===== */
   body::before {
     content:"";
     position:fixed;
-    inset:-50%;
+    inset:-40%;
     background:
-      radial-gradient(circle at 20% 30%, rgba(255,59,48,0.22), transparent 40%),
-      radial-gradient(circle at 80% 40%, rgba(255,255,255,0.05), transparent 45%),
+      radial-gradient(circle at 20% 30%, rgba(255,59,48,0.22), transparent 45%),
+      radial-gradient(circle at 80% 40%, rgba(255,255,255,0.05), transparent 50%),
       radial-gradient(circle at 50% 80%, rgba(255,59,48,0.18), transparent 50%);
-    animation: move 8s ease-in-out infinite alternate;
+    animation: drift 9s ease-in-out infinite alternate;
     z-index:-2;
   }
 
-  @keyframes move {
-    0% { transform: translate(0,0) scale(1); }
-    100% { transform: translate(40px,-30px) scale(1.1); }
+  @keyframes drift {
+    0% { transform:translate(0,0) scale(1); }
+    100% { transform:translate(40px,-25px) scale(1.1); }
   }
 
   body::after {
@@ -47,61 +52,62 @@
     position:fixed;
     inset:0;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='.05'/%3E%3C/svg%3E");
-    z-index:-1;
     opacity:0.5;
+    z-index:-1;
   }
 
-  /* ===== LEFT RAIL (THIS IS THE BIG CHANGE) ===== */
-  .rail {
-    position:fixed;
-    left:2rem;
-    top:50%;
-    transform:translateY(-50%);
-    font-family:'Space Mono';
-    font-size:0.6rem;
-    letter-spacing:0.4em;
-    writing-mode:vertical-rl;
-    color:rgba(255,255,255,0.25);
-  }
-
-  /* NAV */
+  /* ===== NAV (BIGGER + MORE NOTICEABLE) ===== */
   nav {
     position:fixed;
     top:0;
     width:100%;
     display:flex;
     justify-content:space-between;
-    padding:1.5rem 2rem;
-    background:rgba(0,0,0,0.6);
+    align-items:center;
+    padding:1.6rem 2.5rem;
+    background:rgba(0,0,0,0.65);
     backdrop-filter:blur(14px);
+    border-bottom:1px solid rgba(255,255,255,0.05);
   }
 
   .logo {
     font-family:'Space Mono';
     color:var(--accent);
     letter-spacing:0.5em;
-    font-size:0.75rem;
+    font-size:0.8rem;
     text-decoration:none;
+  }
+
+  .nav {
+    display:flex;
+    gap:1.8rem;
   }
 
   .nav a {
     font-family:'Space Mono';
-    font-size:0.65rem;
+    font-size:0.75rem; /* ✔ bigger buttons */
+    letter-spacing:0.35em;
     text-transform:uppercase;
     color:var(--muted);
-    margin-left:1.2rem;
     text-decoration:none;
+    padding:0.6rem 0.9rem;
+    border:1px solid transparent;
+    transition:0.3s ease;
   }
 
-  .nav a:hover { color:var(--accent); }
+  .nav a:hover {
+    color:var(--accent);
+    border:1px solid rgba(255,59,48,0.4);
+    background:rgba(255,59,48,0.06);
+  }
 
   /* HERO */
   header {
     height:100vh;
     display:flex;
-    align-items:center;
-    justify-content:center;
     flex-direction:column;
+    justify-content:center;
+    align-items:center;
     text-align:center;
   }
 
@@ -126,68 +132,58 @@
 
   .label {
     font-family:'Space Mono';
+    font-size:0.75rem;
     letter-spacing:0.6em;
-    font-size:0.7rem;
     color:var(--accent);
-    margin-bottom:2rem;
+    margin-bottom:2.5rem;
   }
 
-  /* ===== HERO MUSIC SPLIT (BIG DIFFERENCE) ===== */
-  .music-wrap {
-    display:grid;
-    grid-template-columns:1.2fr 0.8fr;
-    gap:2rem;
-    align-items:center;
-  }
-
-  .music-card {
-    background:linear-gradient(180deg,#1a1414,#0f0c0f);
+  /* MUSIC */
+  .music {
+    background:#141114;
     padding:1.2rem;
     border-radius:18px;
     border:1px solid rgba(255,255,255,0.08);
-    box-shadow:0 40px 120px rgba(0,0,0,0.7);
   }
 
-  .music-title {
-    font-size:2rem;
-    margin-bottom:1rem;
-  }
-
+  /* BIO */
   .bio p {
-    font-size:1.2rem;
-    line-height:1.8;
-    color:#e8dddd;
+    font-size:1.25rem;
+    line-height:1.9;
+    margin-bottom:1.2rem;
   }
 
-  /* LINKS */
+  /* ===== LINKS (FIXED DESIGN — NO BLUE TEXT) ===== */
   .grid {
     display:grid;
-    gap:0.8rem;
+    gap:0.9rem;
   }
 
   .grid a {
-    padding:1rem;
-    background:#141114;
+    display:block;
+    padding:1.2rem 1.2rem;
+    background:var(--tile);
     border:1px solid rgba(255,255,255,0.06);
     text-decoration:none;
     font-family:'Space Mono';
-    letter-spacing:0.25em;
+    font-size:0.75rem;
+    letter-spacing:0.3em;
     text-transform:uppercase;
-    font-size:0.7rem;
-    transition:0.2s;
+    color:var(--text);
+    transition:0.25s ease;
   }
 
   .grid a:hover {
+    transform:translateX(6px);
     border-color:var(--accent);
-    transform:translateX(5px);
     color:var(--accent);
   }
 
   /* BOOKING */
   .booking {
     padding:2rem;
-    border:1px solid rgba(255,255,255,0.08);
     background:rgba(255,255,255,0.03);
+    border:1px solid rgba(255,255,255,0.06);
     border-radius:16px;
   }
 
@@ -199,18 +195,10 @@
     color:var(--muted);
   }
 
-  /* MOBILE */
-  @media(max-width:900px){
-    .music-wrap{grid-template-columns:1fr;}
-    .rail{display:none;}
-  }
-
 </style>
 </head>
 
 <body>
-
-<div class="rail">SCRLETT • SHOEGaze • ATMOSPHERIC</div>
 
 <nav>
   <a class="logo" href="#">SCRLETT</a>
@@ -224,47 +212,32 @@
 
 <header>
   <h1>SCRLETT</h1>
-  <div class="sub">SOUND YOU DON’T JUST HEAR — YOU FALL INTO</div>
+  <div class="sub">SHOEGAZE / ATMOSPHERIC / NOISE</div>
 </header>
 
-<!-- MUSIC BECOMES HERO -->
 <section id="music">
-  <div class="label">FEATURED RELEASE</div>
+  <div class="label">FEATURED MUSIC</div>
 
-  <div class="music-wrap">
-
-    <div class="music-card">
-      <iframe
-        style="border-radius:12px"
-        src="https://open.spotify.com/embed/artist/349xAeNyeg9stYTykmU4RN"
-        width="100%"
-        height="380"
-        frameborder="0">
-      </iframe>
-    </div>
-
-    <div>
-      <div class="music-title">LATEST SOUND</div>
-      <p style="color:#b9a6a6; line-height:1.8;">
-        A dense, atmospheric catalog built on distortion, emotion, and space.
-        Every release is meant to feel like a memory you can’t place.
-      </p>
-    </div>
-
+  <div class="music">
+    <iframe
+      style="border-radius:12px"
+      src="https://open.spotify.com/embed/artist/349xAeNyeg9stYTykmU4RN"
+      width="100%"
+      height="380"
+      frameborder="0">
+    </iframe>
   </div>
 </section>
 
-<!-- BIO -->
 <section id="bio">
   <div class="label">ABOUT</div>
 
   <div class="bio">
-    <p><b style="color:#ff3b30;">Scrlett</b> builds atmospheric shoegaze textures designed to overwhelm and dissolve structure.</p>
-    <p>The project sits between noise and clarity — where sound becomes environment.</p>
+    <p><b style="color:#ff3b30;">Scrlett</b> creates immersive shoegaze textures built from distortion, space, and emotional weight.</p>
+    <p>The sound exists between clarity and collapse — where structure dissolves into atmosphere.</p>
   </div>
 </section>
 
-<!-- LINKS -->
 <section id="links">
   <div class="label">PLATFORMS</div>
 
@@ -272,20 +245,20 @@
     <a href="https://open.spotify.com/artist/349xAeNyeg9stYTykmU4RN" target="_blank">Spotify</a>
     <a href="https://music.apple.com/us/artist/scrlett/1710991403" target="_blank">Apple Music</a>
     <a href="https://scrlett.bandcamp.com/" target="_blank">Bandcamp</a>
-    <a href="https://cavemantapes.bandcamp.com/merch/scrlett-vacant-cassette-very-limited-seafoam-green" target="_blank">Cassette</a>
-    <a href="https://www.instagram.com/scrlettband/" target="_blank">Instagram</a>
+    <a href="https://cavemantapes.bandcamp.com/merch/scrlett-vacant-cassette-very-limited-seafoam-green" target="_blank">Cassette Merch</a>
     <a href="https://www.youtube.com/@Scrlettband" target="_blank">YouTube</a>
+    <a href="https://www.instagram.com/scrlettband/" target="_blank">Instagram</a>
   </div>
 </section>
 
-<!-- BOOKING -->
 <section id="booking">
   <div class="label">BOOKING</div>
 
   <div class="booking">
-    <p>Booking / Press / Licensing</p>
+    <p>For booking or press inquiries:</p>
+
     <p style="margin-top:1rem;">
-      <a href="mailto:booking@scrlett.com" style="color:#ff3b30;">booking@scrlett.com</a>
+      <b style="color:#ff3b30;">@Scrlettband</b> (Instagram DM)
     </p>
   </div>
 </section>
