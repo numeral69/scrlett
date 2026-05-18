@@ -13,7 +13,7 @@
   :root{
     --bg:#070607;
     --accent:#ff3b30;
-    --text:#f6ecec;
+    --text:#f7eeee;
     --muted:#b9a6a6;
     --card:#141114;
   }
@@ -24,27 +24,28 @@
     font-family:'Cormorant Garamond',serif;
     background:var(--bg);
     color:var(--text);
+    overflow-x:hidden;
   }
 
-  /* ===== MORE OBVIOUS MOTION BACKGROUND ===== */
+  /* ===== DRAMATIC BACKGROUND ===== */
   body::before{
     content:"";
     position:fixed;
-    inset:-60%;
+    inset:-50%;
     background:
-      radial-gradient(circle at 30% 30%, rgba(255,59,48,0.25), transparent 40%),
-      radial-gradient(circle at 70% 40%, rgba(255,255,255,0.05), transparent 50%),
-      radial-gradient(circle at 50% 70%, rgba(255,59,48,0.18), transparent 45%);
-    animation: drift 7s ease-in-out infinite alternate;
+      radial-gradient(circle at 25% 30%, rgba(255,59,48,0.25), transparent 45%),
+      radial-gradient(circle at 70% 40%, rgba(255,255,255,0.04), transparent 55%),
+      radial-gradient(circle at 50% 80%, rgba(255,59,48,0.18), transparent 50%);
+    animation: drift 8s ease-in-out infinite alternate;
     z-index:-2;
   }
 
   @keyframes drift{
     0%{transform:translate(0,0) scale(1);}
-    100%{transform:translate(60px,-40px) scale(1.1);}
+    100%{transform:translate(50px,-30px) scale(1.1);}
   }
 
-  /* ===== FLOATING NAV (NEW LOOK) ===== */
+  /* ===== NAV ===== */
   nav{
     position:fixed;
     top:1.2rem;
@@ -53,7 +54,7 @@
     display:flex;
     gap:0.5rem;
     padding:0.7rem;
-    background:rgba(0,0,0,0.65);
+    background:rgba(0,0,0,0.6);
     border:1px solid rgba(255,255,255,0.08);
     border-radius:999px;
     backdrop-filter:blur(14px);
@@ -77,7 +78,7 @@
     color:var(--accent);
   }
 
-  /* ===== HERO ===== */
+  /* ===== HERO (REDESIGNED FOCUS POINT) ===== */
   header{
     height:100vh;
     display:flex;
@@ -85,12 +86,32 @@
     align-items:center;
     justify-content:center;
     text-align:center;
+    position:relative;
+  }
+
+  /* glowing background text layer */
+  .hero-glow{
+    position:absolute;
+    font-size:clamp(6rem,18vw,16rem);
+    letter-spacing:0.35em;
+    font-weight:300;
+    color:rgba(255,59,48,0.08);
+    transform:translateY(-10px);
+    animation:pulse 4s ease-in-out infinite;
+    user-select:none;
+  }
+
+  @keyframes pulse{
+    0%,100%{opacity:0.3;}
+    50%{opacity:0.6;}
   }
 
   h1{
     font-size:clamp(5rem,14vw,14rem);
-    letter-spacing:0.3em;
+    letter-spacing:0.35em;
     font-weight:300;
+    z-index:2;
+    position:relative;
   }
 
   .sub{
@@ -98,6 +119,7 @@
     font-size:0.7rem;
     letter-spacing:0.4em;
     color:var(--muted);
+    margin-top:1rem;
   }
 
   section{
@@ -114,24 +136,28 @@
     margin-bottom:2.5rem;
   }
 
-  /* ===== MUSIC FULL WIDTH SPOTLIGHT (BIG CHANGE) ===== */
+  /* ===== MUSIC ===== */
   .music{
     width:100%;
     background:linear-gradient(180deg,#1a1414,#0f0c0f);
     padding:1.5rem;
     border-radius:20px;
     border:1px solid rgba(255,255,255,0.08);
-    box-shadow:0 40px 120px rgba(0,0,0,0.7);
   }
 
-  /* ===== BIO ===== */
-  .bio p{
-    font-size:1.3rem;
-    line-height:1.9;
-    margin-bottom:1.2rem;
+  /* ===== BIO (UPDATED STYLE) ===== */
+  .bio{
+    font-size:1.25rem;
+    line-height:2;
+    color:var(--muted);
   }
 
-  /* ===== LINKS GRID (NOW 2 COLUMN CARDS) ===== */
+  .bio strong{
+    color:var(--text);
+    font-weight:400;
+  }
+
+  /* ===== LINKS ===== */
   .grid{
     display:grid;
     grid-template-columns:1fr 1fr;
@@ -140,16 +166,16 @@
 
   .grid a{
     display:flex;
-    align-items:center;
     justify-content:center;
+    align-items:center;
     padding:1.6rem;
     background:var(--card);
     border:1px solid rgba(255,255,255,0.06);
     border-radius:16px;
-    text-decoration:none;
     font-family:'Space Mono';
     font-size:0.7rem;
     letter-spacing:0.3em;
+    text-decoration:none;
     color:var(--text);
     transition:0.25s;
   }
@@ -160,25 +186,63 @@
     color:var(--accent);
   }
 
-  /* ===== BOOKING CTA ===== */
-  .booking{
-    text-align:center;
-    padding:3rem;
+  /* ===== MERCH (NEW FEATURE SECTION) ===== */
+  .merch-card{
+    display:flex;
+    flex-direction:column;
+    gap:1rem;
+    padding:2rem;
     border-radius:20px;
-    background:rgba(255,255,255,0.03);
+    background:linear-gradient(145deg,#1a1414,#0f0c0f);
     border:1px solid rgba(255,255,255,0.08);
+    position:relative;
+    overflow:hidden;
   }
 
-  .cta{
-    display:inline-block;
+  .badge{
+    position:absolute;
+    top:1rem;
+    right:1rem;
+    font-family:'Space Mono';
+    font-size:0.6rem;
+    letter-spacing:0.3em;
+    background:rgba(255,59,48,0.15);
+    border:1px solid rgba(255,59,48,0.4);
+    color:var(--accent);
+    padding:0.4rem 0.7rem;
+    border-radius:999px;
+  }
+
+  .merch-title{
+    font-size:2rem;
+    font-style:italic;
+  }
+
+  .merch-desc{
+    color:var(--muted);
+    line-height:1.8;
+  }
+
+  .merch-link{
     margin-top:1rem;
-    padding:1rem 1.4rem;
+    display:inline-block;
+    padding:1rem 1.2rem;
     background:rgba(255,59,48,0.12);
     border:1px solid rgba(255,59,48,0.4);
     color:var(--accent);
     font-family:'Space Mono';
     text-decoration:none;
     letter-spacing:0.3em;
+    width:fit-content;
+  }
+
+  /* BOOKING */
+  .booking{
+    text-align:center;
+    padding:3rem;
+    border-radius:20px;
+    background:rgba(255,255,255,0.03);
+    border:1px solid rgba(255,255,255,0.08);
   }
 
 </style>
@@ -189,11 +253,13 @@
 <nav>
   <a href="#music">Music</a>
   <a href="#bio">Bio</a>
+  <a href="#merch">Merch</a>
   <a href="#links">Links</a>
   <a href="#booking">Booking</a>
 </nav>
 
 <header>
+  <div class="hero-glow">SCRLETT</div>
   <h1>SCRLETT</h1>
   <div class="sub">SHOEGAZE / ATMOSPHERIC / NOISE</div>
 </header>
@@ -216,8 +282,34 @@
   <div class="label">ABOUT</div>
 
   <div class="bio">
-    <p><b style="color:#ff3b30;">Scrlett</b> builds immersive shoegaze textures shaped by distortion, atmosphere, and emotional weight.</p>
-    <p>The project exists in the space between clarity and collapse.</p>
+    <p><strong>SCRLETT is a shoegaze band known for their immersive soundscapes and emotionally charged melodies.</strong></p>
+
+    <p>They craft dreamy, layered textures that draw listeners in and create a captivating live experience.</p>
+
+    <p>Their performances blend atmospheric intensity with raw emotion, leaving audiences lost in the moment.</p>
+
+    <p>With a passion for sonic exploration and heartfelt expression, SCRLETT connects deeply through both music and performance.</p>
+  </div>
+</section>
+
+<section id="merch">
+  <div class="label">MERCH</div>
+
+  <div class="merch-card">
+    <div class="badge">LIMITED EDITION</div>
+
+    <div class="merch-title">“Vacant” Cassette</div>
+
+    <div class="merch-desc">
+      A limited-run cassette release available in seafoam green.
+      Physical copies are extremely limited and will not be repressed.
+    </div>
+
+    <a class="merch-link"
+       href="https://cavemantapes.bandcamp.com/merch/scrlett-vacant-cassette-very-limited-seafoam-green"
+       target="_blank">
+      BUY NOW
+    </a>
   </div>
 </section>
 
@@ -228,9 +320,9 @@
     <a href="https://open.spotify.com/artist/349xAeNyeg9stYTykmU4RN" target="_blank">Spotify</a>
     <a href="https://music.apple.com/us/artist/scrlett/1710991403" target="_blank">Apple Music</a>
     <a href="https://scrlett.bandcamp.com/" target="_blank">Bandcamp</a>
-    <a href="https://cavemantapes.bandcamp.com/merch/scrlett-vacant-cassette-very-limited-seafoam-green" target="_blank">Cassette</a>
     <a href="https://www.youtube.com/@Scrlettband" target="_blank">YouTube</a>
     <a href="https://www.instagram.com/scrlettband/" target="_blank">Instagram</a>
+    <a href="https://cavemantapes.bandcamp.com/merch/scrlett-vacant-cassette-very-limited-seafoam-green" target="_blank">Cassette</a>
   </div>
 </section>
 
@@ -238,11 +330,10 @@
   <div class="label">BOOKING</div>
 
   <div class="booking">
-    <p>For bookings and press:</p>
-
-    <a class="cta" href="https://instagram.com/Scrlettband" target="_blank">
-      @Scrlettband
-    </a>
+    <p>For booking inquiries contact:</p>
+    <p style="margin-top:1rem;font-family:Space Mono;color:var(--accent)">
+      @Scrlettband (Instagram)
+    </p>
   </div>
 </section>
 
