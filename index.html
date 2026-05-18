@@ -10,147 +10,143 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
 
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  *, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
 
   :root {
     --crimson: #8B1A1A;
     --crimson-bright: #C0392B;
     --crimson-glow: #E74C3C;
     --crimson-dim: #4A0E0E;
-    --almost-black: #080608;
-    --dark-surface: #0E0A0E;
-    --dark-mid: #1A121A;
+
+    --bg: #0b0a0b;
+    --surface: #121012;
 
     /* IMPROVED READABILITY */
-    --text-primary: #E8DEDE;
-    --text-muted: #9A8A8A;
-    --text-dim: #4A3A3A;
+    --text-primary: #EEE4E4;
+    --text-muted: #B39C9C;
+    --text-dim: #6E5C5C;
   }
 
   html { scroll-behavior: smooth; }
 
   body {
-    background: var(--almost-black);
+    background: var(--bg);
     color: var(--text-primary);
     font-family: 'Cormorant Garamond', serif;
     font-weight: 300;
     overflow-x: hidden;
-    cursor: crosshair;
   }
 
-  /* GRain overlay unchanged */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.06'/%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: 1000;
-    opacity: 0.4;
-    mix-blend-mode: overlay;
-  }
-
-  /* NAV unchanged */
+  /* NAV */
   nav {
     position: fixed;
-    top: 0; left: 0; right: 0;
+    top: 0;
+    left: 0;
+    right: 0;
     z-index: 100;
     display: flex;
     justify-content: space-between;
     padding: 1.5rem 3rem;
-    background: linear-gradient(to bottom, rgba(8,6,8,0.95), transparent);
+    background: rgba(10,10,10,0.8);
+    backdrop-filter: blur(10px);
   }
 
   .nav-logo {
     font-family: 'Space Mono', monospace;
-    font-size: 0.75rem;
-    letter-spacing: 0.4em;
     color: var(--crimson-glow);
     text-decoration: none;
+    letter-spacing: 0.4em;
+    font-size: 0.75rem;
   }
 
   .nav-links {
     display: flex;
-    gap: 2.5rem;
+    gap: 2rem;
     list-style: none;
   }
 
   .nav-links a {
     font-family: 'Space Mono', monospace;
     font-size: 0.65rem;
-    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
     color: var(--text-muted);
     text-decoration: none;
-    text-transform: uppercase;
   }
 
-  .nav-links a:hover { color: var(--crimson-glow); }
+  .nav-links a:hover {
+    color: var(--crimson-glow);
+  }
 
-  /* HERO unchanged */
+  /* HERO */
   .hero {
     height: 100vh;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
   }
 
   .hero-title {
-    font-size: clamp(5rem, 18vw, 16rem);
-    font-weight: 300;
+    font-size: clamp(4.5rem, 16vw, 14rem);
     letter-spacing: 0.15em;
+    font-weight: 300;
     color: transparent;
-    -webkit-text-stroke: 1px rgba(192,57,43,0.6);
+    -webkit-text-stroke: 1px rgba(192,57,43,0.7);
   }
 
   .hero-subtitle {
     font-family: 'Space Mono', monospace;
-    font-size: 0.6rem;
-    letter-spacing: 0.4em;
+    font-size: 0.65rem;
+    letter-spacing: 0.35em;
+    margin-top: 1.5rem;
     color: var(--text-muted);
-    margin-top: 2rem;
   }
 
   /* SECTIONS */
   section {
-    padding: 8rem 0;
+    padding: 7rem 0;
   }
 
   .container {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 0 3rem;
+    max-width: 1050px;
+    margin: auto;
+    padding: 0 2rem;
   }
 
   .section-label {
     font-family: 'Space Mono', monospace;
-    font-size: 0.6rem;
+    font-size: 0.65rem;
     letter-spacing: 0.5em;
     color: var(--crimson-bright);
     text-transform: uppercase;
-    margin-bottom: 3rem;
+    margin-bottom: 2.5rem;
   }
 
-  /* MUSIC (UPDATED) */
+  /* MUSIC (REAL FEATURE FIX) */
   #music {
-    background: var(--dark-surface);
+    background: var(--surface);
   }
 
-  .spotify-embed {
-    margin-top: 2rem;
-    padding: 18px;
+  .spotify-wrap {
+    padding: 22px;
     border-radius: 18px;
-    background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(192,57,43,0.15);
-    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(231,76,60,0.25);
+    box-shadow: 0 25px 80px rgba(0,0,0,0.6);
   }
 
-  /* STREAMING */
+  /* STREAM LINKS */
   .stream-row {
-    margin-top: 3rem;
+    margin-top: 2.5rem;
     display: flex;
-    flex-wrap: wrap;
     gap: 1rem;
+    flex-wrap: wrap;
     align-items: center;
   }
 
@@ -165,11 +161,12 @@
   .stream-btn {
     font-family: 'Space Mono', monospace;
     font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
     color: var(--text-muted);
     border: 1px solid var(--text-dim);
     padding: 0.5rem 1rem;
     text-decoration: none;
-    text-transform: uppercase;
   }
 
   .stream-btn:hover {
@@ -177,31 +174,36 @@
     border-color: var(--crimson-glow);
   }
 
-  /* ABOUT (UPDATED BIO) */
+  /* ABOUT */
   #about {
-    background: var(--almost-black);
+    background: var(--bg);
   }
 
   .about-text p {
     font-size: 1.15rem;
     line-height: 1.9;
-    color: var(--text-muted);
+    color: rgba(238,228,228,0.75);
     margin-bottom: 1.5rem;
   }
 
-  /* FOOTER unchanged */
+  /* FOOTER */
+  footer {
+    padding: 5rem 0;
+    text-align: center;
+    color: var(--text-dim);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+  }
 </style>
 </head>
 
 <body>
 
 <nav>
-  <a href="#" class="nav-logo">Scrlett</a>
+  <a class="nav-logo" href="#">SCRLETT</a>
   <ul class="nav-links">
     <li><a href="#music">Music</a></li>
     <li><a href="#about">About</a></li>
-    <li><a href="#shows">Shows</a></li>
-    <li><a href="#contact">Contact</a></li>
   </ul>
 </nav>
 
@@ -214,11 +216,11 @@
   <div class="container">
     <p class="section-label">Music</p>
 
-    <div class="spotify-embed">
+    <div class="spotify-wrap">
       <iframe 
         style="border-radius:16px"
         src="https://open.spotify.com/embed/artist/349xAeNyeg9stYTykmU4R"
-        width="100%" 
+        width="100%"
         height="420"
         frameborder="0"
         allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture">
@@ -238,16 +240,19 @@
 
     <div class="about-text">
       <p>
-        Scrlett is a modern shoegaze-inspired project built on texture, atmosphere, and emotional intensity.
-        Their sound blends layered guitars with melodic fragility, creating immersive, cinematic compositions.
+        Scrlett is a modern shoegaze-inspired project built on texture, atmosphere, and emotional intensity. Their sound blends layered guitars with melodic fragility, creating immersive, cinematic compositions.
       </p>
 
       <p>
-        The project explores contrast — distortion and clarity, chaos and stillness — forming a distinct sonic identity rooted in mood and space.
+        The project explores contrast — distortion and clarity, chaos and stillness — forming a sonic identity rooted in mood and space.
       </p>
     </div>
   </div>
 </section>
+
+<footer>
+  © 2026 SCRLETT
+</footer>
 
 </body>
 </html>
