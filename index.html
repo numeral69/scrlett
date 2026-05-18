@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SCRLETT</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --crimson: #8B1A1A;
+    --crimson-bright: #C0392B;
+    --crimson-glow: #E74C3C;
+    --crimson-dim: #4A0E0E;
+    --almost-black: #080608;
+    --dark-surface: #0E0A0E;
+    --dark-mid: #1A121A;
+    --text-primary: #D4C5C5;
+    --text-muted: #7A6A6A;
+    --text-dim: #3D2D2D;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--almost-black);
+    color: var(--text-primary);
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    overflow-x: hidden;
+    cursor: crosshair;
+  }
+
+  /* GRAIN OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.06'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 200px 200px;
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.4;
+    mix-blend-mode: overlay;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem 3rem;
+    background: linear-gradient(to bottom, rgba(8,6,8,0.95), transparent);
+  }
+
+  .nav-logo {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.4em;
+    color: var(--crimson-glow);
+    text-decoration: none;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    color: var(--text-muted);
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: color 0.4s;
+  }
+
+  .nav-links a:hover { color: var(--crimson-glow); }
+
+  /* HERO */
+  .hero {
+    position: relative;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 50% 60%, rgba(139,26,26,0.18) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 40% at 20% 80%, rgba(74,14,14,0.3) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 60% at 80% 20%, rgba(30,8,8,0.4) 0%, transparent 60%);
+  }
+
+  .hero-lines {
+    position: absolute;
+    inset: 0;
+    background-image:
+      repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 3px,
+        rgba(139,26,26,0.025) 3px,
+        rgba(139,26,26,0.025) 4px
+      );
+    pointer-events: none;
+  }
+
+  .hero-content {
+    position: relative;
+    text-align: center;
+    z-index: 2;
+  }
+
+  .hero-eyebrow {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.6em;
+    color: var(--crimson-bright);
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fadeUp 1.2s 0.3s forwards;
+  }
+
+  .hero-title {
+    font-size: clamp(5rem, 18vw, 16rem);
+    font-weight: 300;
+    letter-spacing: 0.15em;
+    line-height: 0.85;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(192,57,43,0.6);
+    text-stroke: 1px rgba(192,57,43,0.6);
+    position: relative;
+    opacity: 0;
+    animation: fadeUp 1.2s 0.5s forwards;
+  }
+
+  .hero-title span {
+    display: block;
+    color: var(--text-primary);
+    -webkit-text-stroke: 0;
+    font-style: italic;
+    font-size: 0.38em;
+    letter-spacing: 0.5em;
+    margin-top: 1.2rem;
+  }
+
+  .hero-subtitle {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.4em;
+    color: var(--text-muted);
+    margin-top: 2.5rem;
+    opacity: 0;
+    animation: fadeUp 1.2s 0.8s forwards;
+  }
+
+  .scroll-cue {
+    position: absolute;
+    bottom: 2.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    opacity: 0;
+    animation: fadeUp 1s 1.4s forwards;
+  }
+
+  .scroll-cue span {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.5rem;
+    letter-spacing: 0.4em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+  }
+
+  .scroll-line {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--crimson), transparent);
+    animation: scrollPulse 2s infinite;
+  }
+
+  /* DIVIDER */
+  .divider {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--crimson-dim), var(--crimson), var(--crimson-dim), transparent);
+  }
+
+  /* SECTION BASE */
+  section {
+    padding: 8rem 0;
+    position: relative;
+  }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 3rem;
+  }
+
+  .section-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.5em;
+    color: var(--crimson-bright);
+    text-transform: uppercase;
+    margin-bottom: 3rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .section-label::after {
+    content: '';
+    height: 1px;
+    width: 60px;
+    background: var(--crimson-dim);
+  }
+
+  /* MUSIC SECTION */
+  #music {
+    background: var(--dark-surface);
+  }
+
+  .music-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+  }
+
+  .track-card {
+    position: relative;
+    background: var(--dark-mid);
+    padding: 2rem 2.5rem;
+    overflow: hidden;
+    transition: background 0.5s;
+    cursor: pointer;
+    text-decoration: none;
+    display: block;
+    color: inherit;
+  }
+
+  .track-card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 2px;
+    background: var(--crimson-dim);
+    transition: background 0.4s, width 0.4s;
+  }
+
+  .track-card:hover::before {
+    background: var(--crimson-glow);
+    width: 3px;
+  }
+
+  .track-card:hover { background: #130D13; }
+
+  .track-number {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.3em;
+    color: var(--crimson-dim);
+    margin-bottom: 0.75rem;
+  }
+
+  .track-title {
+    font-size: 1.6rem;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--text-primary);
+    margin-bottom: 0.4rem;
+    line-height: 1.1;
+  }
+
+  .track-meta {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.2em;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .track-duration { color: var(--text-dim); }
+
+  .play-icon {
+    width: 28px; height: 28px;
+    border: 1px solid var(--crimson-dim);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color 0.4s, background 0.4s;
+    flex-shrink: 0;
+  }
+
+  .track-card:hover .play-icon {
+    border-color: var(--crimson-glow);
+    background: rgba(192,57,43,0.1);
+  }
+
+  .play-icon svg {
+    width: 8px; height: 8px;
+    fill: var(--text-muted);
+    margin-left: 2px;
+    transition: fill 0.4s;
+  }
+
+  .track-card:hover .play-icon svg { fill: var(--crimson-glow); }
+
+  /* STREAMING */
+  .stream-row {
+    margin-top: 4rem;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .stream-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.3em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+  }
+
+  .stream-links {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .stream-btn {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    color: var(--text-muted);
+    text-decoration: none;
+    border: 1px solid var(--text-dim);
+    padding: 0.5rem 1.2rem;
+    text-transform: uppercase;
+    transition: color 0.4s, border-color 0.4s;
+  }
+
+  .stream-btn:hover {
+    color: var(--crimson-glow);
+    border-color: var(--crimson);
+  }
+
+  /* ABOUT SECTION */
+  #about {
+    background: var(--almost-black);
+  }
+
+  .about-layout {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 6rem;
+    align-items: start;
+  }
+
+  .about-image-placeholder {
+    aspect-ratio: 3/4;
+    background: var(--dark-mid);
+    border: 1px solid var(--crimson-dim);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .about-image-placeholder::after {
+    content: 'PHOTO';
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.5rem;
+    letter-spacing: 0.3em;
+    color: var(--text-dim);
+  }
+
+  .about-image-inner {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 30% 60%, rgba(139,26,26,0.25) 0%, transparent 60%),
+      linear-gradient(135deg, var(--dark-mid) 0%, var(--almost-black) 100%);
+  }
+
+  .about-text h2 {
+    font-size: 3.5rem;
+    font-weight: 300;
+    font-style: italic;
+    line-height: 1.1;
+    color: var(--text-primary);
+    margin-bottom: 2rem;
+  }
+
+  .about-text p {
+    font-size: 1.2rem;
+    font-weight: 300;
+    line-height: 1.9;
+    color: var(--text-muted);
+    margin-bottom: 1.5rem;
+  }
+
+  .about-text p em {
+    color: var(--text-primary);
+    font-style: italic;
+  }
+
+  /* SHOWS SECTION */
+  #shows {
+    background: var(--dark-surface);
+  }
+
+  .show-list {
+    border-top: 1px solid var(--text-dim);
+  }
+
+  .show-item {
+    display: grid;
+    grid-template-columns: 140px 1fr 1fr auto;
+    align-items: center;
+    padding: 1.5rem 0;
+    border-bottom: 1px solid var(--text-dim);
+    transition: background 0.4s;
+    gap: 2rem;
+  }
+
+  .show-item:hover { background: rgba(139,26,26,0.04); }
+
+  .show-date {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    color: var(--crimson-bright);
+  }
+
+  .show-venue {
+    font-size: 1.2rem;
+    font-style: italic;
+    color: var(--text-primary);
+  }
+
+  .show-city {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    color: var(--text-muted);
+    text-transform: uppercase;
+  }
+
+  .show-ticket {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.2em;
+    color: var(--text-muted);
+    text-decoration: none;
+    border: 1px solid var(--text-dim);
+    padding: 0.4rem 1rem;
+    text-transform: uppercase;
+    transition: color 0.4s, border-color 0.4s;
+    white-space: nowrap;
+  }
+
+  .show-ticket:hover {
+    color: var(--crimson-glow);
+    border-color: var(--crimson);
+  }
+
+  /* CONTACT / FOOTER */
+  footer {
+    padding: 6rem 0 3rem;
+    background: var(--almost-black);
+    border-top: 1px solid var(--crimson-dim);
+  }
+
+  .footer-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 3rem;
+    margin-bottom: 4rem;
+  }
+
+  .footer-brand {
+    font-size: 4rem;
+    font-weight: 300;
+    font-style: italic;
+    color: transparent;
+    -webkit-text-stroke: 1px var(--crimson-dim);
+    letter-spacing: 0.1em;
+  }
+
+  .footer-nav h4 {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.4em;
+    color: var(--crimson-bright);
+    text-transform: uppercase;
+    margin-bottom: 1.2rem;
+  }
+
+  .footer-nav ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .footer-nav a {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    color: var(--text-muted);
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: color 0.4s;
+  }
+
+  .footer-nav a:hover { color: var(--text-primary); }
+
+  .footer-bottom {
+    padding-top: 2rem;
+    border-top: 1px solid var(--text-dim);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-bottom p {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.5rem;
+    letter-spacing: 0.2em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+  }
+
+  .social-links {
+    display: flex;
+    gap: 1.5rem;
+  }
+
+  .social-links a {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.5rem;
+    letter-spacing: 0.25em;
+    color: var(--text-dim);
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: color 0.4s;
+  }
+
+  .social-links a:hover { color: var(--crimson-glow); }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.2; transform: scaleY(1); }
+    50%       { opacity: 1;   transform: scaleY(1.1); }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.9s ease, transform 0.9s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    nav { padding: 1.2rem 1.5rem; }
+    .nav-links { gap: 1.5rem; }
+    .container { padding: 0 1.5rem; }
+    .music-grid { grid-template-columns: 1fr; }
+    .about-layout { grid-template-columns: 1fr; gap: 3rem; }
+    .show-item { grid-template-columns: 1fr 1fr; grid-template-rows: auto auto; }
+    .show-ticket { grid-column: 1 / -1; width: fit-content; }
+    .footer-inner { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">Scrlett</a>
+  <ul class="nav-links">
+    <li><a href="#music">Music</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#shows">Shows</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-lines"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Est. 2021 &nbsp;·&nbsp; Shoegaze</p>
+    <h1 class="hero-title">
+      SCRLETT
+      <span>where noise becomes beauty</span>
+    </h1>
+    <p class="hero-subtitle">New Album &nbsp;—&nbsp; Velvet Static &nbsp;—&nbsp; Out Now</p>
+  </div>
+  <div class="scroll-cue">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- MUSIC -->
+<section id="music">
+  <div class="container">
+    <p class="section-label reveal">Music</p>
+    <div class="music-grid reveal">
+
+      <a href="#" class="track-card">
+        <p class="track-number">01 &nbsp;/&nbsp; Album: Velvet Static</p>
+        <h3 class="track-title">Bleed Into the Wallpaper</h3>
+        <div class="track-meta">
+          <span>Single &nbsp;·&nbsp; 2024</span>
+          <span class="track-duration">4:32</span>
+          <div class="play-icon">
+            <svg viewBox="0 0 10 10"><polygon points="2,1 9,5 2,9"/></svg>
+          </div>
+        </div>
+      </a>
+
+      <a href="#" class="track-card">
+        <p class="track-number">02 &nbsp;/&nbsp; Album: Velvet Static</p>
+        <h3 class="track-title">Red Room Hymn</h3>
+        <div class="track-meta">
+          <span>Single &nbsp;·&nbsp; 2024</span>
+          <span class="track-duration">5:17</span>
+          <div class="play-icon">
+            <svg viewBox="0 0 10 10"><polygon points="2,1 9,5 2,9"/></svg>
+          </div>
+        </div>
+      </a>
+
+      <a href="#" class="track-card">
+        <p class="track-number">03 &nbsp;/&nbsp; Album: Velvet Static</p>
+        <h3 class="track-title">Soft Collapse</h3>
+        <div class="track-meta">
+          <span>EP &nbsp;·&nbsp; 2023</span>
+          <span class="track-duration">6:01</span>
+          <div class="play-icon">
+            <svg viewBox="0 0 10 10"><polygon points="2,1 9,5 2,9"/></svg>
+          </div>
+        </div>
+      </a>
+
+      <a href="#" class="track-card">
+        <p class="track-number">04 &nbsp;/&nbsp; Album: Velvet Static</p>
+        <h3 class="track-title">Pale Devotion</h3>
+        <div class="track-meta">
+          <span>EP &nbsp;·&nbsp; 2023</span>
+          <span class="track-duration">4:48</span>
+          <div class="play-icon">
+            <svg viewBox="0 0 10 10"><polygon points="2,1 9,5 2,9"/></svg>
+          </div>
+        </div>
+      </a>
+
+      <a href="#" class="track-card">
+        <p class="track-number">05 &nbsp;/&nbsp; Album: Velvet Static</p>
+        <h3 class="track-title">Funeral for a Ghost</h3>
+        <div class="track-meta">
+          <span>Album &nbsp;·&nbsp; 2022</span>
+          <span class="track-duration">5:54</span>
+          <div class="play-icon">
+            <svg viewBox="0 0 10 10"><polygon points="2,1 9,5 2,9"/></svg>
+          </div>
+        </div>
+      </a>
+
+      <a href="#" class="track-card">
+        <p class="track-number">06 &nbsp;/&nbsp; Album: Velvet Static</p>
+        <h3 class="track-title">Hollow Cathedral</h3>
+        <div class="track-meta">
+          <span>Album &nbsp;·&nbsp; 2022</span>
+          <span class="track-duration">7:03</span>
+          <div class="play-icon">
+            <svg viewBox="0 0 10 10"><polygon points="2,1 9,5 2,9"/></svg>
+          </div>
+        </div>
+      </a>
+
+    </div>
+
+    <div class="stream-row reveal">
+      <span class="stream-label">Add to your playlist</span>
+      <div class="stream-links">
+        <a href="https://open.spotify.com/artist/349xAeNyeg9stYTykmU4R" target="_blank" class="stream-btn">Spotify</a>
+        <a href="https://music.apple.com/us/artist/scrlett/1710991403" target="_blank" class="stream-btn">Apple Music</a>
+        <a href="https://scrlett.bandcamp.com/" target="_blank" class="stream-btn">Bandcamp</a>
+      </div>
+    </div>
+    <div class="stream-row reveal">
+      <span class="stream-label">Merch</span>
+      <div class="stream-links">
+        <a href="https://cavemantapes.bandcamp.com/merch/scrlett-vacant-cassette-very-limited-seafoam-green" target="_blank" class="stream-btn">Cassette — Vacant (Limited Seafoam Green)</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <p class="section-label reveal">About</p>
+    <div class="about-layout">
+      <div class="about-image-placeholder reveal">
+        <div class="about-image-inner"></div>
+      </div>
+      <div class="about-text reveal">
+        <h2>Noise, distortion,<br/>and the space between.</h2>
+        <p>Scrlett emerged from late nights and heavy reverb — a band built on the belief that <em>sound should feel like something</em>. Rooted in the shoegaze tradition, their music layers walls of guitar noise over fragile melodies, finding beauty in the blur.</p>
+        <p>Drawing from the lineages of My Bloody Valentine, Slowdive, and Lush, Scrlett carve out their own sonic territory — <em>dense, cinematic, and achingly intimate</em>.</p>
+        <p>Their debut album <em>Velvet Static</em> is out now on all platforms.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SHOWS -->
+<section id="shows">
+  <div class="container">
+    <p class="section-label reveal">Live</p>
+    <div class="show-list reveal">
+
+      <div class="show-item">
+        <span class="show-date">Jun 14, 2026</span>
+        <span class="show-venue">The Velvet Underground</span>
+        <span class="show-city">Nashville, TN</span>
+        <a href="#" class="show-ticket">Tickets</a>
+      </div>
+
+      <div class="show-item">
+        <span class="show-date">Jun 21, 2026</span>
+        <span class="show-venue">Saturn Birmingham</span>
+        <span class="show-city">Birmingham, AL</span>
+        <a href="#" class="show-ticket">Tickets</a>
+      </div>
+
+      <div class="show-item">
+        <span class="show-date">Jul 05, 2026</span>
+        <span class="show-venue">Parish Room</span>
+        <span class="show-city">Austin, TX</span>
+        <a href="#" class="show-ticket">Tickets</a>
+      </div>
+
+      <div class="show-item">
+        <span class="show-date">Jul 19, 2026</span>
+        <span class="show-venue">The Casbah</span>
+        <span class="show-city">San Diego, CA</span>
+        <a href="#" class="show-ticket">Tickets</a>
+      </div>
+
+      <div class="show-item">
+        <span class="show-date">Aug 02, 2026</span>
+        <span class="show-venue">Rough Trade NYC</span>
+        <span class="show-city">New York, NY</span>
+        <a href="#" class="show-ticket">Sold Out</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER / CONTACT -->
+<footer id="contact">
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">Scrlett</div>
+
+      <div class="footer-nav">
+        <h4>Music</h4>
+        <ul>
+          <li><a href="#">Spotify</a></li>
+          <li><a href="#">Apple Music</a></li>
+          <li><a href="#">Bandcamp</a></li>
+          <li><a href="#">SoundCloud</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-nav">
+        <h4>Follow</h4>
+        <ul>
+          <li><a href="#">Instagram</a></li>
+          <li><a href="#">TikTok</a></li>
+          <li><a href="#">YouTube</a></li>
+          <li><a href="#">Facebook</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-nav">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="mailto:booking@scrlett.com">Booking</a></li>
+          <li><a href="mailto:press@scrlett.com">Press</a></li>
+          <li><a href="mailto:hello@scrlett.com">General</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>© 2026 Scrlett. All rights reserved.</p>
+      <div class="social-links">
+        <a href="#">Instagram</a>
+        <a href="#">Spotify</a>
+        <a href="#">Bandcamp</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
