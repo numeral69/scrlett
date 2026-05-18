@@ -1,114 +1,236 @@
-import React, { useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
-import { base44 } from "@/api/base44Client";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Lock, Loader2, AlertTriangle } from "lucide-react";
-import AuthLayout from "@/components/AuthLayout";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SCRLETT</title>
 
-export default function ResetPassword() {
-  const [searchParams] = useSearchParams();
-  const resetToken = searchParams.get("token");
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 
-  const [newPassword, setNewPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError("");
-    if (newPassword !== confirmPassword) {
-      setError("Passwords do not match");
-      return;
-    }
-    setLoading(true);
-    try {
-      await base44.auth.resetPassword({ resetToken, newPassword });
-      window.location.href = "/login";
-    } catch (err) {
-      setError(err.message || "Failed to reset password");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  if (!resetToken) {
-    return (
-      <AuthLayout
-        icon={AlertTriangle}
-        title="Invalid reset link"
-        subtitle="This password reset link is missing or invalid"
-        footer={
-          <Link to="/forgot-password" className="text-primary font-medium hover:underline">
-            Request a new link
-          </Link>
-        }
-      >
-        <p className="text-sm text-foreground text-center">
-          The link you used appears to be incomplete. Please request a new password reset email.
-        </p>
-      </AuthLayout>
-    );
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
   }
 
-  return (
-    <AuthLayout
-      icon={Lock}
-      title="New password"
-      subtitle="Enter your new password below"
-    >
-      {error && (
-        <div className="mb-4 p-3 rounded-lg bg-destructive/10 text-destructive text-sm">
-          {error}
-        </div>
-      )}
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div className="space-y-2">
-          <Label htmlFor="password">New Password</Label>
-          <div className="relative">
-            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" aria-hidden="true" />
-            <Input
-              id="password"
-              type="password"
-              autoComplete="new-password"
-              autoFocus
-              placeholder="••••••••"
-              value={newPassword}
-              onChange={(e) => setNewPassword(e.target.value)}
-              className="pl-10 h-12"
-              required
-            />
-          </div>
-        </div>
-        <div className="space-y-2">
-          <Label htmlFor="confirm">Confirm Password</Label>
-          <div className="relative">
-            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" aria-hidden="true" />
-            <Input
-              id="confirm"
-              type="password"
-              autoComplete="new-password"
-              placeholder="••••••••"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              className="pl-10 h-12"
-              required
-            />
-          </div>
-        </div>
-        <Button type="submit" className="w-full h-12 font-medium" disabled={loading}>
-          {loading ? (
-            <>
-              <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-              Resetting...
-            </>
-          ) : (
-            "Reset password"
-          )}
-        </Button>
-      </form>
-    </AuthLayout>
-  );
-}
+  :root {
+    --bg: #0b0a0b;
+    --surface: #141214;
+    --text: #eee4e4;
+    --muted: #b39c9c;
+    --accent: #e74c3c;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Cormorant Garamond', serif;
+  }
+
+  a {
+    color: inherit;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 1.5rem 2.5rem;
+    background: rgba(10,10,10,0.85);
+    backdrop-filter: blur(10px);
+    z-index: 1000;
+  }
+
+  .logo {
+    font-family: 'Space Mono', monospace;
+    letter-spacing: 0.4em;
+    color: var(--accent);
+    font-size: 0.75rem;
+    text-decoration: none;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 1.5rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+  }
+
+  .nav-links a {
+    text-decoration: none;
+    color: var(--muted);
+  }
+
+  .nav-links a:hover {
+    color: var(--accent);
+  }
+
+  /* HERO */
+  header {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+
+  h1 {
+    font-size: clamp(4rem, 15vw, 12rem);
+    letter-spacing: 0.2em;
+    font-weight: 300;
+  }
+
+  .subtitle {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    color: var(--muted);
+    margin-top: 1rem;
+  }
+
+  section {
+    padding: 6rem 2rem;
+    max-width: 1000px;
+    margin: auto;
+  }
+
+  .label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.4em;
+    color: var(--accent);
+    margin-bottom: 2rem;
+    text-transform: uppercase;
+  }
+
+  /* MUSIC */
+  .embed {
+    background: var(--surface);
+    padding: 1rem;
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+
+  /* LINKS */
+  .grid {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .grid a {
+    display: block;
+    padding: 1rem;
+    background: var(--surface);
+    border-radius: 12px;
+    text-decoration: none;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    border: 1px solid rgba(255,255,255,0.06);
+    transition: 0.2s ease;
+  }
+
+  .grid a:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  /* ABOUT */
+  p {
+    line-height: 1.8;
+    color: #d8cfcf;
+    font-size: 1.1rem;
+    margin-bottom: 1.2rem;
+  }
+
+  footer {
+    text-align: center;
+    padding: 4rem 2rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--muted);
+  }
+
+</style>
+</head>
+
+<body>
+
+<nav>
+  <a class="logo" href="#">SCRLETT</a>
+  <div class="nav-links">
+    <a href="#music">Music</a>
+    <a href="#links">Links</a>
+    <a href="#about">About</a>
+  </div>
+</nav>
+
+<header>
+  <h1>SCRLETT</h1>
+  <div class="subtitle">Shoegaze / Atmospheric / Noise Pop</div>
+</header>
+
+<section id="music">
+  <div class="label">Music</div>
+
+  <div class="embed">
+    <iframe
+      style="border-radius:12px"
+      src="https://open.spotify.com/embed/artist/349xAeNyeg9stYTykmU4RN"
+      width="100%"
+      height="380"
+      frameborder="0"
+      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture">
+    </iframe>
+  </div>
+</section>
+
+<section id="links">
+  <div class="label">Listen & Follow</div>
+
+  <div class="grid">
+
+    <a href="https://open.spotify.com/artist/349xAeNyeg9stYTykmU4RN" target="_blank">Spotify</a>
+
+    <a href="https://music.apple.com/us/artist/scrlett/1710991403" target="_blank">Apple Music</a>
+
+    <a href="https://scrlett.bandcamp.com/" target="_blank">Bandcamp</a>
+
+    <a href="https://cavemantapes.bandcamp.com/merch/scrlett-vacant-cassette-very-limited-seafoam-green" target="_blank">
+      Cassette Merch (Limited)
+    </a>
+
+    <a href="https://www.youtube.com/@Scrlettband" target="_blank">YouTube</a>
+
+    <a href="https://www.instagram.com/scrlettband/" target="_blank">Instagram</a>
+
+  </div>
+</section>
+
+<section id="about">
+  <div class="label">About</div>
+
+  <p>
+    Scrlett is a modern shoegaze-inspired project built on texture, atmosphere, and emotional intensity.
+  </p>
+
+  <p>
+    The project explores contrast — distortion and clarity, chaos and stillness — forming a sonic identity rooted in mood and space.
+  </p>
+</section>
+
+<footer>
+  © 2026 SCRLETT
+</footer>
+
+</body>
+</html>
