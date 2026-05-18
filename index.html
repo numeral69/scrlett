@@ -11,11 +11,12 @@
 *{margin:0;padding:0;box-sizing:border-box;}
 
 :root{
-  --bg:#050405;
-  --accent:#ff3b30;
-  --text:#f7eeee;
-  --muted:#b9a6a6;
-  --max:1100px;
+  --bg:#050505;
+  --text:#f5f5f5;
+  --muted:#a9a9a9;
+  --accent:#ffffff;
+  --line:rgba(255,255,255,0.12);
+  --max:900px;
 }
 
 body{
@@ -25,29 +26,35 @@ body{
   overflow-x:hidden;
 }
 
-/* atmospheric noise */
+/* subtle archival grain */
 body::before{
   content:"";
   position:fixed;
   inset:0;
   background:
-    radial-gradient(circle at 30% 20%, rgba(255,59,48,0.18), transparent 40%),
-    radial-gradient(circle at 70% 60%, rgba(255,255,255,0.03), transparent 50%);
-  z-index:-1;
+    repeating-linear-gradient(
+      0deg,
+      rgba(255,255,255,0.02),
+      rgba(255,255,255,0.02) 1px,
+      transparent 1px,
+      transparent 3px
+    );
+  pointer-events:none;
+  opacity:0.4;
 }
 
-/* NAV (minimal, centered, not layout-driving) */
+/* NAV — institutional, not decorative */
 nav{
   position:fixed;
   top:0;
   width:100%;
   display:flex;
   justify-content:center;
-  gap:2rem;
-  padding:1rem;
-  backdrop-filter:blur(18px);
-  background:rgba(0,0,0,0.55);
-  border-bottom:1px solid rgba(255,255,255,0.05);
+  gap:2.5rem;
+  padding:1.2rem;
+  border-bottom:1px solid var(--line);
+  background:rgba(0,0,0,0.85);
+  backdrop-filter:blur(10px);
   z-index:1000;
 }
 
@@ -55,164 +62,135 @@ nav a{
   font-family:'Space Mono';
   font-size:0.7rem;
   letter-spacing:0.3em;
-  text-transform:uppercase;
   color:var(--muted);
   text-decoration:none;
+  text-transform:uppercase;
 }
 
-nav a:hover{color:var(--accent);}
+nav a:hover{
+  color:var(--text);
+}
 
-/* GLOBAL CONTAINER FIX (prevents ALL cut-off issues) */
+/* CONTAINER */
 .container{
   max-width:var(--max);
   margin:0 auto;
   padding:0 2rem;
 }
 
-/* HERO = VISUAL MOMENT 1 */
+/* HERO — stark, typographic */
 .hero{
   min-height:100vh;
   display:flex;
   align-items:center;
+  border-bottom:1px solid var(--line);
 }
 
 .hero h1{
-  font-size:clamp(5rem,14vw,14rem);
+  font-size:clamp(4rem,12vw,10rem);
   letter-spacing:0.4em;
   font-weight:300;
-  position:relative;
-}
-
-.hero h1::after{
-  content:"SCRLETT";
-  position:absolute;
-  left:6px;
-  top:6px;
-  color:transparent;
-  -webkit-text-stroke:1px rgba(255,59,48,0.25);
+  text-transform:uppercase;
 }
 
 .hero p{
-  max-width:520px;
   margin-top:2rem;
-  color:var(--muted);
   font-size:1.2rem;
   line-height:2;
+  color:var(--muted);
+  max-width:600px;
 }
 
-/* SECTION BASE */
+/* SECTION STYLE — no boxes, only lines */
 section{
-  padding:7rem 0;
+  padding:6rem 0;
+  border-bottom:1px solid var(--line);
 }
 
 .label{
   font-family:'Space Mono';
-  letter-spacing:0.6em;
-  font-size:0.75rem;
-  color:var(--accent);
-  margin-bottom:2.5rem;
+  font-size:0.7rem;
+  letter-spacing:0.5em;
+  text-transform:uppercase;
+  margin-bottom:3rem;
+  color:var(--text);
 }
 
-/* MUSIC = VISUAL MOMENT 2 (dominant) */
-.music{
-  background:rgba(255,255,255,0.02);
-  border-top:1px solid rgba(255,255,255,0.05);
-  border-bottom:1px solid rgba(255,255,255,0.05);
-}
-
+/* MUSIC */
 iframe{
   width:100%;
-  height:420px;
-  border-radius:18px;
-  border:1px solid rgba(255,255,255,0.08);
+  height:380px;
+  border:1px solid var(--line);
 }
 
-/* BIO = editorial text block */
+/* BIO — documentary tone */
 .bio{
-  font-size:1.3rem;
+  font-size:1.25rem;
   line-height:2.1;
   color:var(--muted);
-  max-width:780px;
+  max-width:700px;
 }
 
-/* MERCH = VISUAL MOMENT 3 */
+/* MERCH — archival listing style */
 .merch{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:3rem;
-  align-items:center;
+  display:flex;
+  flex-direction:column;
+  gap:1.5rem;
 }
 
-.art{
-  height:340px;
-  border-radius:18px;
-  background:linear-gradient(135deg,#1a141a,#0c0a0c);
-  border:1px solid rgba(255,255,255,0.08);
-  position:relative;
+.merch-title{
+  font-size:1.5rem;
 }
 
-.art::after{
-  content:"LIMITED CASSETTE";
-  position:absolute;
-  bottom:1rem;
-  left:1rem;
+.badge{
   font-family:'Space Mono';
-  font-size:0.7rem;
-  color:var(--accent);
-  letter-spacing:0.3em;
+  font-size:0.65rem;
+  letter-spacing:0.4em;
+  color:var(--text);
+  opacity:0.8;
 }
 
 .buy{
   display:inline-block;
-  margin-top:1.5rem;
-  padding:1rem 1.2rem;
-  border:1px solid rgba(255,59,48,0.4);
-  color:var(--accent);
-  font-family:'Space Mono';
+  padding:0.9rem 1.2rem;
+  border:1px solid var(--line);
+  color:var(--text);
   text-decoration:none;
+  font-family:'Space Mono';
+  font-size:0.7rem;
+  letter-spacing:0.2em;
+  width:max-content;
 }
 
-/* LINKS (clean grid, no overflow ever) */
+.buy:hover{
+  border-color:var(--text);
+}
+
+/* LINKS — clean list (important Velvet-style shift) */
 .links{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
+  display:flex;
+  flex-direction:column;
   gap:1rem;
 }
 
 .links a{
-  padding:1.4rem;
-  background:rgba(255,255,255,0.03);
-  border-radius:14px;
-  text-decoration:none;
   font-family:'Space Mono';
-  color:var(--text);
-  text-align:center;
+  font-size:0.75rem;
+  letter-spacing:0.25em;
+  text-transform:uppercase;
+  color:var(--muted);
+  text-decoration:none;
+  padding:0.5rem 0;
+  border-bottom:1px solid var(--line);
 }
 
 .links a:hover{
-  border:1px solid var(--accent);
-  color:var(--accent);
+  color:var(--text);
 }
 
-/* YOUTUBE FIX (REAL WORKING EMBED) */
-.video iframe{
-  width:100%;
-  height:500px;
-  border-radius:18px;
-}
-
-/* RESPONSIVE */
-@media(max-width:900px){
-  .merch{
-    grid-template-columns:1fr;
-  }
-
-  .links{
-    grid-template-columns:1fr;
-  }
-
+@media(max-width:800px){
   .hero h1{
-    font-size:5rem;
+    font-size:3.5rem;
   }
 }
 </style>
@@ -228,73 +206,61 @@ iframe{
   <a href="#links">Links</a>
 </nav>
 
-<!-- HERO -->
 <header class="hero">
   <div class="container">
     <h1>SCRLETT</h1>
     <p>
-      Shoegaze / Atmospheric / Noise — immersive soundscapes built from distortion, emotion, and space.
+      Shoegaze band based in atmospheric distortion and emotional minimalism.
+      Music built from texture, repetition, and decay.
     </p>
   </div>
 </header>
 
-<!-- MUSIC -->
 <section id="music">
   <div class="container">
-    <div class="label">FEATURED MUSIC</div>
+    <div class="label">Selected Recordings</div>
     <iframe src="https://open.spotify.com/embed/artist/349xAeNyeg9stYTykmU4RN"></iframe>
   </div>
 </section>
 
-<!-- BIO -->
 <section id="bio">
   <div class="container">
-    <div class="label">BIO</div>
+    <div class="label">Biography</div>
     <div class="bio">
-      SCRLETT is a shoegaze band known for immersive soundscapes and emotionally charged melodies. They craft layered textures that blur the line between noise and emotion.
+      SCRLETT is a shoegaze band known for immersive soundscapes and emotionally charged melodies. Their work focuses on texture, atmosphere, and repetition as emotional structure.
     </div>
   </div>
 </section>
 
-<!-- MERCH -->
 <section id="merch">
   <div class="container">
-    <div class="label">MERCH</div>
+    <div class="label">Merchandise</div>
 
     <div class="merch">
-      <div class="art"></div>
+      <div class="badge">LIMITED CASSETTE RELEASE</div>
+      <div class="merch-title">Vacant — Seafoam Green</div>
 
-      <div>
-        <h2>Vacant — Seafoam Green Cassette</h2>
-        <p style="color:var(--muted);margin-top:1rem;line-height:1.9;">
-          Limited physical release. No repress.
-        </p>
-
-        <a class="buy" href="https://cavemantapes.bandcamp.com/merch/scrlett-vacant-cassette-very-limited-seafoam-green">
-          BUY NOW
-        </a>
-      </div>
+      <a class="buy" href="https://cavemantapes.bandcamp.com/merch/scrlett-vacant-cassette-very-limited-seafoam-green">
+        PURCHASE
+      </a>
     </div>
   </div>
 </section>
 
-<!-- YOUTUBE -->
 <section id="video">
   <div class="container">
-    <div class="label">VIDEO</div>
+    <div class="label">Video Archive</div>
 
-    <!-- FIXED EMBED (replace if needed) -->
     <iframe
-      src="https://www.youtube.com/embed/videoseries?list=UU"
+      src="https://www.youtube.com/embed?listType=user_uploads&list=Scrlettband"
       allowfullscreen>
     </iframe>
   </div>
 </section>
 
-<!-- LINKS -->
 <section id="links">
   <div class="container">
-    <div class="label">LINKS</div>
+    <div class="label">External Links</div>
 
     <div class="links">
       <a href="https://open.spotify.com/artist/349xAeNyeg9stYTykmU4RN">Spotify</a>
@@ -302,7 +268,6 @@ iframe{
       <a href="https://scrlett.bandcamp.com/">Bandcamp</a>
       <a href="https://www.instagram.com/scrlettband/">Instagram</a>
       <a href="https://www.youtube.com/@Scrlettband">YouTube</a>
-      <a href="https://cavemantapes.bandcamp.com/merch/scrlett-vacant-cassette-very-limited-seafoam-green">Cassette</a>
     </div>
   </div>
 </section>
