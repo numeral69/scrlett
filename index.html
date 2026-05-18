@@ -19,9 +19,11 @@
   :root {
     --bg: #0b0a0b;
     --surface: #141214;
-    --text: #f1e8e8;
-    --muted: #b8a3a3;
+    --surface-2: #1a171a;
+    --text: #f3eaea;
+    --muted: #bda7a7;
     --accent: #e74c3c;
+    --accent-soft: rgba(231,76,60,0.15);
   }
 
   body {
@@ -31,22 +33,32 @@
     overflow-x: hidden;
   }
 
-  /* ===== ANIMATED BACKGROUND ===== */
+  /* ===== CINEMATIC BACKGROUND ===== */
   body::before {
     content: "";
     position: fixed;
     inset: 0;
     background:
-      radial-gradient(circle at 20% 20%, rgba(231,76,60,0.12), transparent 40%),
+      radial-gradient(circle at 20% 20%, rgba(231,76,60,0.12), transparent 45%),
       radial-gradient(circle at 80% 30%, rgba(255,255,255,0.04), transparent 50%),
-      radial-gradient(circle at 50% 80%, rgba(231,76,60,0.08), transparent 45%);
-    animation: floatBg 12s ease-in-out infinite alternate;
+      radial-gradient(circle at 50% 80%, rgba(231,76,60,0.08), transparent 55%);
+    animation: drift 14s ease-in-out infinite alternate;
+    z-index: -2;
+  }
+
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.05'/%3E%3C/svg%3E");
+    opacity: 0.4;
+    mix-blend-mode: overlay;
     z-index: -1;
   }
 
-  @keyframes floatBg {
+  @keyframes drift {
     0% { transform: scale(1) translateY(0px); }
-    100% { transform: scale(1.05) translateY(-20px); }
+    100% { transform: scale(1.08) translateY(-25px); }
   }
 
   /* ===== NAV ===== */
@@ -56,16 +68,16 @@
     width: 100%;
     display: flex;
     justify-content: space-between;
-    padding: 1.5rem 2.5rem;
-    background: rgba(10,10,10,0.75);
-    backdrop-filter: blur(12px);
-    z-index: 1000;
+    padding: 1.4rem 2.5rem;
+    background: rgba(10,10,10,0.72);
+    backdrop-filter: blur(14px);
     border-bottom: 1px solid rgba(255,255,255,0.05);
+    z-index: 1000;
   }
 
   .logo {
     font-family: 'Space Mono';
-    letter-spacing: 0.4em;
+    letter-spacing: 0.5em;
     font-size: 0.75rem;
     color: var(--accent);
     text-decoration: none;
@@ -73,15 +85,15 @@
 
   .nav-links {
     display: flex;
-    gap: 1.5rem;
+    gap: 1.4rem;
     font-family: 'Space Mono';
     font-size: 0.65rem;
     text-transform: uppercase;
   }
 
   .nav-links a {
-    text-decoration: none;
     color: var(--muted);
+    text-decoration: none;
     transition: 0.3s;
   }
 
@@ -100,22 +112,22 @@
   }
 
   h1 {
-    font-size: clamp(4.5rem, 14vw, 13rem);
-    letter-spacing: 0.25em;
+    font-size: clamp(5rem, 14vw, 14rem);
+    letter-spacing: 0.28em;
     font-weight: 300;
   }
 
   .subtitle {
     font-family: 'Space Mono';
     font-size: 0.7rem;
-    letter-spacing: 0.35em;
+    letter-spacing: 0.4em;
+    margin-top: 1.2rem;
     color: var(--muted);
-    margin-top: 1rem;
   }
 
   /* ===== SECTION SYSTEM ===== */
   section {
-    padding: 6rem 2rem;
+    padding: 7rem 2rem;
     max-width: 1050px;
     margin: auto;
   }
@@ -123,27 +135,27 @@
   .section-title {
     font-family: 'Space Mono';
     font-size: 0.75rem;
-    letter-spacing: 0.5em;
+    letter-spacing: 0.55em;
     color: var(--accent);
-    margin-bottom: 2.5rem;
+    margin-bottom: 2.8rem;
     text-transform: uppercase;
   }
 
-  /* ===== MUSIC (HIGHEST PRIORITY) ===== */
-  .music-feature {
-    background: var(--surface);
-    padding: 1.2rem;
-    border-radius: 16px;
+  /* ===== MUSIC HERO BLOCK ===== */
+  .music {
+    background: linear-gradient(180deg, var(--surface), var(--surface-2));
+    padding: 1.5rem;
+    border-radius: 18px;
     border: 1px solid rgba(255,255,255,0.06);
-    box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+    box-shadow: 0 40px 120px rgba(0,0,0,0.65);
   }
 
-  /* ===== BIO ===== */
+  /* ===== BIO (LABEL STYLE) ===== */
   .bio p {
-    font-size: 1.25rem;
+    font-size: 1.35rem;
     line-height: 1.9;
-    color: #e7dddd;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.4rem;
+    color: #eadfdf;
   }
 
   .bio strong {
@@ -151,20 +163,19 @@
     font-weight: 400;
   }
 
-  /* ===== LINKS ===== */
+  /* ===== LINKS GRID ===== */
   .grid {
     display: grid;
-    gap: 0.75rem;
+    gap: 0.8rem;
   }
 
   .grid a {
-    display: block;
-    padding: 1rem;
+    padding: 1rem 1.2rem;
     background: var(--surface);
     border-radius: 12px;
     font-family: 'Space Mono';
     font-size: 0.7rem;
-    letter-spacing: 0.2em;
+    letter-spacing: 0.25em;
     text-transform: uppercase;
     text-decoration: none;
     border: 1px solid rgba(255,255,255,0.06);
@@ -174,9 +185,10 @@
   .grid a:hover {
     border-color: var(--accent);
     color: var(--accent);
+    transform: translateY(-2px);
   }
 
-  /* ===== BOOKING ===== */
+  /* ===== BOOKING (INDUSTRY STYLE) ===== */
   .booking {
     background: rgba(255,255,255,0.03);
     padding: 2rem;
@@ -187,6 +199,19 @@
   .booking a {
     color: var(--accent);
     text-decoration: none;
+  }
+
+  /* ===== ACTIVE NAV FEEL (VISUAL ONLY) ===== */
+  .hint {
+    position: fixed;
+    right: 2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: 'Space Mono';
+    font-size: 0.6rem;
+    letter-spacing: 0.3em;
+    color: rgba(255,255,255,0.25);
+    writing-mode: vertical-rl;
   }
 
   /* ===== FOOTER ===== */
@@ -213,16 +238,18 @@
   </div>
 </nav>
 
+<div class="hint">SCROLL • SCRLETT</div>
+
 <header>
   <h1>SCRLETT</h1>
-  <div class="subtitle">Shoegaze / Noise / Atmospheric Sound</div>
+  <div class="subtitle">SHOEGAZE / NOISE / ATMOSPHERIC</div>
 </header>
 
-<!-- MUSIC FIRST (IMPORTANT CHANGE) -->
+<!-- MUSIC (FOCUS) -->
 <section id="music">
-  <div class="section-title">Featured Music</div>
+  <div class="section-title">Featured Release</div>
 
-  <div class="music-feature">
+  <div class="music">
     <iframe
       style="border-radius:12px"
       src="https://open.spotify.com/embed/artist/349xAeNyeg9stYTykmU4RN"
@@ -234,22 +261,14 @@
   </div>
 </section>
 
-<!-- BIO NOW MORE FORWARD -->
+<!-- BIO -->
 <section id="bio">
   <div class="section-title">About</div>
 
   <div class="bio">
-    <p>
-      <strong>Scrlett</strong> is a shoegaze-influenced project built on distortion, texture, and emotional weight.
-    </p>
-
-    <p>
-      Their sound prioritizes atmosphere over structure — creating immersive compositions that sit between noise and melody.
-    </p>
-
-    <p>
-      This is not background music. It is designed to be felt.
-    </p>
+    <p><strong>Scrlett</strong> is a shoegaze and atmospheric project built on texture, distortion, and emotional weight.</p>
+    <p>The sound exists between clarity and noise — where melodies dissolve into atmosphere.</p>
+    <p>This project is designed to be experienced, not just heard.</p>
   </div>
 </section>
 
@@ -269,19 +288,15 @@
 
 <!-- BOOKING -->
 <section id="booking">
-  <div class="section-title">Booking</div>
+  <div class="section-title">Booking / Press</div>
 
   <div class="booking">
-    <p>
-      For booking, press, or licensing inquiries:
-    </p>
-
-    <p style="margin-top: 1rem;">
+    <p>For booking, press, or licensing inquiries:</p>
+    <p style="margin-top:1rem;">
       <a href="mailto:booking@scrlett.com">booking@scrlett.com</a>
     </p>
-
-    <p style="margin-top: 1rem;">
-      Please include venue, date, and location in your inquiry.
+    <p style="margin-top:1rem; color:#bda7a7;">
+      Please include venue, date, and location.
     </p>
   </div>
 </section>
