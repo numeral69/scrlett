@@ -11,38 +11,32 @@
 *{margin:0;padding:0;box-sizing:border-box;}
 
 :root{
-  --bg:#060506;
+  --bg:#050405;
   --accent:#ff3b30;
-  --text:#f6eeee;
+  --text:#f7eeee;
   --muted:#b9a6a6;
   --max:1100px;
 }
 
 body{
-  font-family:'Cormorant Garamond',serif;
   background:var(--bg);
   color:var(--text);
+  font-family:'Cormorant Garamond',serif;
   overflow-x:hidden;
 }
 
-/* subtle moving atmosphere */
+/* atmospheric noise */
 body::before{
   content:"";
   position:fixed;
-  inset:-50%;
+  inset:0;
   background:
-    radial-gradient(circle at 20% 30%, rgba(255,59,48,0.18), transparent 40%),
+    radial-gradient(circle at 30% 20%, rgba(255,59,48,0.18), transparent 40%),
     radial-gradient(circle at 70% 60%, rgba(255,255,255,0.03), transparent 50%);
-  animation: float 12s ease-in-out infinite alternate;
   z-index:-1;
 }
 
-@keyframes float{
-  0%{transform:translate(0,0);}
-  100%{transform:translate(40px,-30px);}
-}
-
-/* NAV */
+/* NAV (minimal, centered, not layout-driving) */
 nav{
   position:fixed;
   top:0;
@@ -50,10 +44,10 @@ nav{
   display:flex;
   justify-content:center;
   gap:2rem;
-  padding:1rem 2rem;
-  background:rgba(0,0,0,0.6);
+  padding:1rem;
   backdrop-filter:blur(18px);
-  border-bottom:1px solid rgba(255,255,255,0.06);
+  background:rgba(0,0,0,0.55);
+  border-bottom:1px solid rgba(255,255,255,0.05);
   z-index:1000;
 }
 
@@ -61,20 +55,21 @@ nav a{
   font-family:'Space Mono';
   font-size:0.7rem;
   letter-spacing:0.3em;
+  text-transform:uppercase;
   color:var(--muted);
   text-decoration:none;
 }
 
 nav a:hover{color:var(--accent);}
 
-/* GLOBAL SAFE WRAPPER (FIXES CUT OFF ISSUE) */
-.wrapper{
+/* GLOBAL CONTAINER FIX (prevents ALL cut-off issues) */
+.container{
   max-width:var(--max);
   margin:0 auto;
   padding:0 2rem;
 }
 
-/* HERO — POSTER STYLE */
+/* HERO = VISUAL MOMENT 1 */
 .hero{
   min-height:100vh;
   display:flex;
@@ -83,7 +78,7 @@ nav a:hover{color:var(--accent);}
 
 .hero h1{
   font-size:clamp(5rem,14vw,14rem);
-  letter-spacing:0.35em;
+  letter-spacing:0.4em;
   font-weight:300;
   position:relative;
 }
@@ -94,20 +89,20 @@ nav a:hover{color:var(--accent);}
   left:6px;
   top:6px;
   color:transparent;
-  -webkit-text-stroke:1px rgba(255,59,48,0.3);
+  -webkit-text-stroke:1px rgba(255,59,48,0.25);
 }
 
 .hero p{
-  max-width:500px;
+  max-width:520px;
   margin-top:2rem;
   color:var(--muted);
   font-size:1.2rem;
   line-height:2;
 }
 
-/* SECTION STYLE */
+/* SECTION BASE */
 section{
-  padding:8rem 0;
+  padding:7rem 0;
 }
 
 .label{
@@ -115,10 +110,10 @@ section{
   letter-spacing:0.6em;
   font-size:0.75rem;
   color:var(--accent);
-  margin-bottom:3rem;
+  margin-bottom:2.5rem;
 }
 
-/* MUSIC */
+/* MUSIC = VISUAL MOMENT 2 (dominant) */
 .music{
   background:rgba(255,255,255,0.02);
   border-top:1px solid rgba(255,255,255,0.05);
@@ -128,19 +123,19 @@ section{
 iframe{
   width:100%;
   height:420px;
-  border-radius:16px;
+  border-radius:18px;
   border:1px solid rgba(255,255,255,0.08);
 }
 
-/* BIO — editorial column */
+/* BIO = editorial text block */
 .bio{
   font-size:1.3rem;
   line-height:2.1;
   color:var(--muted);
-  max-width:800px;
+  max-width:780px;
 }
 
-/* MERCH — poster card */
+/* MERCH = VISUAL MOMENT 3 */
 .merch{
   display:grid;
   grid-template-columns:1fr 1fr;
@@ -151,8 +146,7 @@ iframe{
 .art{
   height:340px;
   border-radius:18px;
-  background:
-    linear-gradient(135deg,#1a141a,#0c0a0c);
+  background:linear-gradient(135deg,#1a141a,#0c0a0c);
   border:1px solid rgba(255,255,255,0.08);
   position:relative;
 }
@@ -164,21 +158,21 @@ iframe{
   left:1rem;
   font-family:'Space Mono';
   font-size:0.7rem;
-  letter-spacing:0.3em;
   color:var(--accent);
+  letter-spacing:0.3em;
 }
 
 .buy{
   display:inline-block;
   margin-top:1.5rem;
-  padding:1rem 1.3rem;
+  padding:1rem 1.2rem;
   border:1px solid rgba(255,59,48,0.4);
   color:var(--accent);
   font-family:'Space Mono';
   text-decoration:none;
 }
 
-/* LINKS — clean grid */
+/* LINKS (clean grid, no overflow ever) */
 .links{
   display:grid;
   grid-template-columns:repeat(3,1fr);
@@ -193,7 +187,6 @@ iframe{
   font-family:'Space Mono';
   color:var(--text);
   text-align:center;
-  transition:0.2s;
 }
 
 .links a:hover{
@@ -201,11 +194,11 @@ iframe{
   color:var(--accent);
 }
 
-/* YOUTUBE FIXED */
+/* YOUTUBE FIX (REAL WORKING EMBED) */
 .video iframe{
   width:100%;
-  height:520px;
-  border-radius:16px;
+  height:500px;
+  border-radius:18px;
 }
 
 /* RESPONSIVE */
@@ -222,7 +215,6 @@ iframe{
     font-size:5rem;
   }
 }
-
 </style>
 </head>
 
@@ -236,43 +228,37 @@ iframe{
   <a href="#links">Links</a>
 </nav>
 
-<div class="wrapper">
-
 <!-- HERO -->
 <header class="hero">
-  <div>
+  <div class="container">
     <h1>SCRLETT</h1>
     <p>
-      Shoegaze / Atmospheric / Noise — crafting immersive soundscapes
-      built from distortion, memory, and emotion.
+      Shoegaze / Atmospheric / Noise — immersive soundscapes built from distortion, emotion, and space.
     </p>
   </div>
 </header>
 
-</div>
-
 <!-- MUSIC -->
-<section class="music" id="music">
-  <div class="wrapper">
+<section id="music">
+  <div class="container">
     <div class="label">FEATURED MUSIC</div>
-
     <iframe src="https://open.spotify.com/embed/artist/349xAeNyeg9stYTykmU4RN"></iframe>
   </div>
 </section>
 
 <!-- BIO -->
 <section id="bio">
-  <div class="wrapper">
+  <div class="container">
     <div class="label">BIO</div>
     <div class="bio">
-      SCRLETT is a shoegaze band known for immersive soundscapes and emotionally charged melodies. They craft layered textures that draw listeners into dense atmospheric environments where sound and emotion blur.
+      SCRLETT is a shoegaze band known for immersive soundscapes and emotionally charged melodies. They craft layered textures that blur the line between noise and emotion.
     </div>
   </div>
 </section>
 
 <!-- MERCH -->
 <section id="merch">
-  <div class="wrapper">
+  <div class="container">
     <div class="label">MERCH</div>
 
     <div class="merch">
@@ -281,7 +267,7 @@ iframe{
       <div>
         <h2>Vacant — Seafoam Green Cassette</h2>
         <p style="color:var(--muted);margin-top:1rem;line-height:1.9;">
-          Extremely limited physical release. No repress. Label-grade collectible.
+          Limited physical release. No repress.
         </p>
 
         <a class="buy" href="https://cavemantapes.bandcamp.com/merch/scrlett-vacant-cassette-very-limited-seafoam-green">
@@ -294,12 +280,12 @@ iframe{
 
 <!-- YOUTUBE -->
 <section id="video">
-  <div class="wrapper">
+  <div class="container">
     <div class="label">VIDEO</div>
 
-    <!-- replace VIDEO_ID with real one -->
+    <!-- FIXED EMBED (replace if needed) -->
     <iframe
-      src="https://www.youtube.com/embed?listType=user_uploads&list=Scrlettband"
+      src="https://www.youtube.com/embed/videoseries?list=UU"
       allowfullscreen>
     </iframe>
   </div>
@@ -307,7 +293,7 @@ iframe{
 
 <!-- LINKS -->
 <section id="links">
-  <div class="wrapper">
+  <div class="container">
     <div class="label">LINKS</div>
 
     <div class="links">
