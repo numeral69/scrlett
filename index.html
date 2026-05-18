@@ -5,194 +5,122 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>SCRLETT</title>
 
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 
 <style>
-  *, *::before, *::after {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-  }
+  * { margin:0; padding:0; box-sizing:border-box; }
 
   :root {
-    --crimson: #8B1A1A;
-    --crimson-bright: #C0392B;
-    --crimson-glow: #E74C3C;
-    --crimson-dim: #4A0E0E;
-
-    --bg: #0b0a0b;
-    --surface: #121012;
-
-    /* IMPROVED READABILITY */
-    --text-primary: #EEE4E4;
-    --text-muted: #B39C9C;
-    --text-dim: #6E5C5C;
+    --bg:#0b0a0b;
+    --surface:#141214;
+    --text:#eee4e4;
+    --muted:#b39c9c;
+    --accent:#e74c3c;
   }
-
-  html { scroll-behavior: smooth; }
 
   body {
-    background: var(--bg);
-    color: var(--text-primary);
-    font-family: 'Cormorant Garamond', serif;
-    font-weight: 300;
-    overflow-x: hidden;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Cormorant Garamond', serif;
   }
 
-  /* NAV */
   nav {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 100;
-    display: flex;
-    justify-content: space-between;
-    padding: 1.5rem 3rem;
-    background: rgba(10,10,10,0.8);
-    backdrop-filter: blur(10px);
+    position:fixed;
+    top:0;
+    width:100%;
+    display:flex;
+    justify-content:space-between;
+    padding:1.5rem 3rem;
+    background:rgba(10,10,10,0.8);
+    backdrop-filter:blur(10px);
   }
 
-  .nav-logo {
-    font-family: 'Space Mono', monospace;
-    color: var(--crimson-glow);
-    text-decoration: none;
-    letter-spacing: 0.4em;
-    font-size: 0.75rem;
+  .logo {
+    font-family:'Space Mono';
+    letter-spacing:0.4em;
+    color:var(--accent);
+    text-decoration:none;
   }
 
-  .nav-links {
-    display: flex;
-    gap: 2rem;
-    list-style: none;
+  .links a {
+    margin-left:1.5rem;
+    font-family:'Space Mono';
+    font-size:0.65rem;
+    text-transform:uppercase;
+    color:var(--muted);
+    text-decoration:none;
   }
 
-  .nav-links a {
-    font-family: 'Space Mono', monospace;
-    font-size: 0.65rem;
-    text-transform: uppercase;
-    letter-spacing: 0.2em;
-    color: var(--text-muted);
-    text-decoration: none;
+  .links a:hover { color:var(--accent); }
+
+  header {
+    height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
   }
 
-  .nav-links a:hover {
-    color: var(--crimson-glow);
+  h1 {
+    font-size:clamp(4rem, 15vw, 12rem);
+    letter-spacing:0.2em;
   }
 
-  /* HERO */
-  .hero {
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-  }
-
-  .hero-title {
-    font-size: clamp(4.5rem, 16vw, 14rem);
-    letter-spacing: 0.15em;
-    font-weight: 300;
-    color: transparent;
-    -webkit-text-stroke: 1px rgba(192,57,43,0.7);
-  }
-
-  .hero-subtitle {
-    font-family: 'Space Mono', monospace;
-    font-size: 0.65rem;
-    letter-spacing: 0.35em;
-    margin-top: 1.5rem;
-    color: var(--text-muted);
-  }
-
-  /* SECTIONS */
   section {
-    padding: 7rem 0;
+    padding:6rem 2rem;
+    max-width:1000px;
+    margin:auto;
   }
 
-  .container {
-    max-width: 1050px;
-    margin: auto;
-    padding: 0 2rem;
+  .label {
+    font-family:'Space Mono';
+    font-size:0.7rem;
+    letter-spacing:0.4em;
+    color:var(--accent);
+    margin-bottom:2rem;
   }
 
-  .section-label {
-    font-family: 'Space Mono', monospace;
-    font-size: 0.65rem;
-    letter-spacing: 0.5em;
-    color: var(--crimson-bright);
-    text-transform: uppercase;
-    margin-bottom: 2.5rem;
+  .embed {
+    background:var(--surface);
+    padding:20px;
+    border-radius:16px;
+    border:1px solid rgba(255,255,255,0.05);
   }
 
-  /* MUSIC (REAL FEATURE FIX) */
-  #music {
-    background: var(--surface);
+  .grid {
+    display:grid;
+    gap:1rem;
+    margin-top:2rem;
   }
 
-  .spotify-wrap {
-    padding: 22px;
-    border-radius: 18px;
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(231,76,60,0.25);
-    box-shadow: 0 25px 80px rgba(0,0,0,0.6);
+  .grid a {
+    display:block;
+    padding:1rem;
+    background:var(--surface);
+    border-radius:12px;
+    text-decoration:none;
+    color:var(--text);
+    font-family:'Space Mono';
+    font-size:0.7rem;
+    letter-spacing:0.2em;
+    text-transform:uppercase;
+    border:1px solid rgba(255,255,255,0.05);
   }
 
-  /* STREAM LINKS */
-  .stream-row {
-    margin-top: 2.5rem;
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-    align-items: center;
+  .grid a:hover {
+    border-color:var(--accent);
+    color:var(--accent);
   }
 
-  .stream-label {
-    font-family: 'Space Mono', monospace;
-    font-size: 0.6rem;
-    color: var(--text-dim);
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-  }
-
-  .stream-btn {
-    font-family: 'Space Mono', monospace;
-    font-size: 0.6rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--text-muted);
-    border: 1px solid var(--text-dim);
-    padding: 0.5rem 1rem;
-    text-decoration: none;
-  }
-
-  .stream-btn:hover {
-    color: var(--crimson-glow);
-    border-color: var(--crimson-glow);
-  }
-
-  /* ABOUT */
-  #about {
-    background: var(--bg);
-  }
-
-  .about-text p {
-    font-size: 1.15rem;
-    line-height: 1.9;
-    color: rgba(238,228,228,0.75);
-    margin-bottom: 1.5rem;
-  }
-
-  /* FOOTER */
   footer {
-    padding: 5rem 0;
-    text-align: center;
-    color: var(--text-dim);
-    font-family: 'Space Mono', monospace;
-    font-size: 0.6rem;
+    text-align:center;
+    padding:4rem 2rem;
+    color:var(--muted);
+    font-family:'Space Mono';
+    font-size:0.6rem;
   }
 </style>
 </head>
@@ -200,54 +128,77 @@
 <body>
 
 <nav>
-  <a class="nav-logo" href="#">SCRLETT</a>
-  <ul class="nav-links">
-    <li><a href="#music">Music</a></li>
-    <li><a href="#about">About</a></li>
-  </ul>
+  <a class="logo" href="#">SCRLETT</a>
+  <div class="links">
+    <a href="#music">Music</a>
+    <a href="#links">Links</a>
+    <a href="#about">About</a>
+  </div>
 </nav>
 
-<section class="hero">
-  <h1 class="hero-title">SCRLETT</h1>
-  <p class="hero-subtitle">Modern Shoegaze / Atmospheric Sound Design</p>
-</section>
+<header>
+  <h1>SCRLETT</h1>
+</header>
 
 <section id="music">
-  <div class="container">
-    <p class="section-label">Music</p>
+  <div class="label">Music</div>
 
-    <div class="spotify-wrap">
-      <iframe 
-        style="border-radius:16px"
-        src="https://open.spotify.com/embed/artist/349xAeNyeg9stYTykmU4R"
-        width="100%"
-        height="420"
-        frameborder="0"
-        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture">
-      </iframe>
-    </div>
+  <div class="embed">
+    <iframe 
+      style="border-radius:12px"
+      src="https://open.spotify.com/embed/artist/349xAeNyeg9stYTykmU4RN"
+      width="100%" height="380"
+      frameborder="0"
+      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture">
+    </iframe>
+  </div>
+</section>
 
-    <div class="stream-row">
-      <span class="stream-label">Listen</span>
-      <a class="stream-btn" href="https://open.spotify.com/artist/349xAeNyeg9stYTykmU4R" target="_blank">Spotify</a>
-    </div>
+<section id="links">
+  <div class="label">Listen & Follow</div>
+
+  <div class="grid">
+
+    <a href="https://open.spotify.com/artist/349xAeNyeg9stYTykmU4RN" target="_blank">
+      Spotify
+    </a>
+
+    <a href="https://music.apple.com/us/artist/scrlett/1710991403" target="_blank">
+      Apple Music
+    </a>
+
+    <a href="https://scrlett.bandcamp.com/" target="_blank">
+      Bandcamp
+    </a>
+
+    <a href="https://cavemantapes.bandcamp.com/merch/scrlett-vacant-cassette-very-limited-seafoam-green" target="_blank">
+      Cassette Merch (Limited)
+    </a>
+
+    <a href="https://www.youtube.com/@Scrlettband" target="_blank">
+      YouTube
+    </a>
+
+    <a href="https://www.instagram.com/scrlettband/" target="_blank">
+      Instagram
+    </a>
+
   </div>
 </section>
 
 <section id="about">
-  <div class="container">
-    <p class="section-label">About</p>
+  <div class="label">About</div>
 
-    <div class="about-text">
-      <p>
-        Scrlett is a modern shoegaze-inspired project built on texture, atmosphere, and emotional intensity. Their sound blends layered guitars with melodic fragility, creating immersive, cinematic compositions.
-      </p>
+  <p>
+    Scrlett is a modern shoegaze-inspired project built on texture, atmosphere, and emotional intensity.
+    Their sound blends layered guitars with cinematic production and melodic fragility.
+  </p>
 
-      <p>
-        The project explores contrast — distortion and clarity, chaos and stillness — forming a sonic identity rooted in mood and space.
-      </p>
-    </div>
-  </div>
+  <br>
+
+  <p>
+    The project explores contrast — distortion and clarity, chaos and stillness — forming a sonic identity rooted in mood and space.
+  </p>
 </section>
 
 <footer>
