@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
@@ -24,16 +24,15 @@
     font-family:'Cormorant Garamond',serif;
     background:var(--bg);
     color:var(--text);
-    overflow-x:hidden;
   }
 
-  /* ===== DRAMATIC BACKGROUND ===== */
+  /* background motion */
   body::before{
     content:"";
     position:fixed;
-    inset:-50%;
+    inset:-60%;
     background:
-      radial-gradient(circle at 25% 30%, rgba(255,59,48,0.25), transparent 45%),
+      radial-gradient(circle at 20% 30%, rgba(255,59,48,0.25), transparent 45%),
       radial-gradient(circle at 70% 40%, rgba(255,255,255,0.04), transparent 55%),
       radial-gradient(circle at 50% 80%, rgba(255,59,48,0.18), transparent 50%);
     animation: drift 8s ease-in-out infinite alternate;
@@ -45,18 +44,18 @@
     100%{transform:translate(50px,-30px) scale(1.1);}
   }
 
-  /* ===== NAV ===== */
+  /* NAV */
   nav{
     position:fixed;
-    top:1.2rem;
+    top:1rem;
     left:50%;
     transform:translateX(-50%);
     display:flex;
     gap:0.5rem;
-    padding:0.7rem;
-    background:rgba(0,0,0,0.6);
-    border:1px solid rgba(255,255,255,0.08);
+    padding:0.6rem;
     border-radius:999px;
+    background:rgba(0,0,0,0.65);
+    border:1px solid rgba(255,255,255,0.08);
     backdrop-filter:blur(14px);
     z-index:1000;
   }
@@ -69,63 +68,72 @@
     color:var(--muted);
     text-decoration:none;
     padding:0.6rem 1rem;
-    border-radius:999px;
-    transition:0.25s;
   }
 
   nav a:hover{
-    background:rgba(255,59,48,0.12);
     color:var(--accent);
   }
 
-  /* ===== HERO (REDESIGNED FOCUS POINT) ===== */
-  header{
-    height:100vh;
+  /* ===== HERO SPLIT (REAL CHANGE) ===== */
+  .hero{
+    min-height:100vh;
+    display:grid;
+    grid-template-columns:1.2fr 1fr;
+  }
+
+  .hero-left{
     display:flex;
-    flex-direction:column;
     align-items:center;
     justify-content:center;
-    text-align:center;
-    position:relative;
+    flex-direction:column;
+    text-align:left;
+    padding:4rem;
   }
 
-  /* glowing background text layer */
-  .hero-glow{
-    position:absolute;
-    font-size:clamp(6rem,18vw,16rem);
+  .hero-left h1{
+    font-size:clamp(5rem,12vw,12rem);
     letter-spacing:0.35em;
     font-weight:300;
-    color:rgba(255,59,48,0.08);
-    transform:translateY(-10px);
-    animation:pulse 4s ease-in-out infinite;
-    user-select:none;
   }
 
-  @keyframes pulse{
-    0%,100%{opacity:0.3;}
-    50%{opacity:0.6;}
+  .hero-right{
+    display:flex;
+    justify-content:center;
+    flex-direction:column;
+    padding:4rem;
+    border-left:1px solid rgba(255,255,255,0.06);
   }
 
-  h1{
-    font-size:clamp(5rem,14vw,14rem);
-    letter-spacing:0.35em;
-    font-weight:300;
-    z-index:2;
-    position:relative;
-  }
-
-  .sub{
+  .tag{
     font-family:'Space Mono';
     font-size:0.7rem;
     letter-spacing:0.4em;
+    color:var(--accent);
+    margin-bottom:1rem;
+  }
+
+  .hero-right p{
+    font-size:1.2rem;
+    line-height:2;
     color:var(--muted);
-    margin-top:1rem;
+  }
+
+  /* MUSIC FULL WIDTH FEATURE */
+  .music{
+    padding:6rem 2rem;
+    background:#120f12;
+  }
+
+  .music iframe{
+    width:100%;
+    height:420px;
+    border-radius:16px;
   }
 
   section{
-    padding:7rem 2rem;
     max-width:1100px;
     margin:auto;
+    padding:6rem 2rem;
   }
 
   .label{
@@ -136,31 +144,19 @@
     margin-bottom:2.5rem;
   }
 
-  /* ===== MUSIC ===== */
-  .music{
-    width:100%;
-    background:linear-gradient(180deg,#1a1414,#0f0c0f);
-    padding:1.5rem;
-    border-radius:20px;
-    border:1px solid rgba(255,255,255,0.08);
-  }
-
-  /* ===== BIO (UPDATED STYLE) ===== */
+  /* BIO */
   .bio{
     font-size:1.25rem;
     line-height:2;
     color:var(--muted);
   }
 
-  .bio strong{
-    color:var(--text);
-    font-weight:400;
-  }
+  .bio strong{color:var(--text);}
 
-  /* ===== LINKS ===== */
+  /* LINKS */
   .grid{
     display:grid;
-    grid-template-columns:1fr 1fr;
+    grid-template-columns:repeat(2,1fr);
     gap:1rem;
   }
 
@@ -170,79 +166,53 @@
     align-items:center;
     padding:1.6rem;
     background:var(--card);
-    border:1px solid rgba(255,255,255,0.06);
-    border-radius:16px;
-    font-family:'Space Mono';
-    font-size:0.7rem;
-    letter-spacing:0.3em;
+    border-radius:14px;
     text-decoration:none;
+    font-family:'Space Mono';
     color:var(--text);
-    transition:0.25s;
+    transition:0.2s;
   }
 
   .grid a:hover{
-    transform:scale(1.02);
-    border-color:var(--accent);
+    border:1px solid var(--accent);
     color:var(--accent);
   }
 
-  /* ===== MERCH (NEW FEATURE SECTION) ===== */
-  .merch-card{
-    display:flex;
-    flex-direction:column;
-    gap:1rem;
+  /* MERCH (NOW VISUALLY STRONG) */
+  .merch{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:2rem;
+    align-items:center;
+    background:var(--card);
     padding:2rem;
     border-radius:20px;
-    background:linear-gradient(145deg,#1a1414,#0f0c0f);
+  }
+
+  .cover{
+    height:280px;
+    background:linear-gradient(135deg,#1b151b,#0c0a0c);
+    border-radius:16px;
     border:1px solid rgba(255,255,255,0.08);
-    position:relative;
-    overflow:hidden;
   }
 
   .badge{
-    position:absolute;
-    top:1rem;
-    right:1rem;
     font-family:'Space Mono';
-    font-size:0.6rem;
+    font-size:0.65rem;
     letter-spacing:0.3em;
-    background:rgba(255,59,48,0.15);
-    border:1px solid rgba(255,59,48,0.4);
     color:var(--accent);
-    padding:0.4rem 0.7rem;
-    border-radius:999px;
+    margin-bottom:1rem;
   }
 
-  .merch-title{
-    font-size:2rem;
-    font-style:italic;
-  }
-
-  .merch-desc{
-    color:var(--muted);
-    line-height:1.8;
-  }
-
-  .merch-link{
-    margin-top:1rem;
+  .buy{
     display:inline-block;
+    margin-top:1rem;
     padding:1rem 1.2rem;
     background:rgba(255,59,48,0.12);
     border:1px solid rgba(255,59,48,0.4);
     color:var(--accent);
     font-family:'Space Mono';
     text-decoration:none;
-    letter-spacing:0.3em;
-    width:fit-content;
-  }
-
-  /* BOOKING */
-  .booking{
-    text-align:center;
-    padding:3rem;
-    border-radius:20px;
-    background:rgba(255,255,255,0.03);
-    border:1px solid rgba(255,255,255,0.08);
   }
 
 </style>
@@ -255,88 +225,71 @@
   <a href="#bio">Bio</a>
   <a href="#merch">Merch</a>
   <a href="#links">Links</a>
-  <a href="#booking">Booking</a>
 </nav>
 
-<header>
-  <div class="hero-glow">SCRLETT</div>
-  <h1>SCRLETT</h1>
-  <div class="sub">SHOEGAZE / ATMOSPHERIC / NOISE</div>
-</header>
+<!-- HERO SPLIT -->
+<div class="hero">
 
-<section id="music">
-  <div class="label">FEATURED MUSIC</div>
-
-  <div class="music">
-    <iframe
-      style="border-radius:12px"
-      src="https://open.spotify.com/embed/artist/349xAeNyeg9stYTykmU4RN"
-      width="100%"
-      height="380"
-      frameborder="0">
-    </iframe>
+  <div class="hero-left">
+    <h1>SCRLETT</h1>
   </div>
-</section>
 
+  <div class="hero-right">
+    <div class="tag">SHOEGAZE / ATMOSPHERIC / NOISE</div>
+    <p><strong>SCRLETT is a shoegaze band known for immersive soundscapes and emotionally charged melodies.</strong></p>
+    <p>They craft layered textures that create a captivating live experience.</p>
+  </div>
+
+</div>
+
+<!-- MUSIC -->
+<div class="music" id="music">
+  <section>
+    <div class="label">FEATURED MUSIC</div>
+    <iframe src="https://open.spotify.com/embed/artist/349xAeNyeg9stYTykmU4RN"></iframe>
+  </section>
+</div>
+
+<!-- BIO -->
 <section id="bio">
-  <div class="label">ABOUT</div>
-
+  <div class="label">BIO</div>
   <div class="bio">
-    <p><strong>SCRLETT is a shoegaze band known for their immersive soundscapes and emotionally charged melodies.</strong></p>
-
-    <p>They craft dreamy, layered textures that draw listeners in and create a captivating live experience.</p>
-
-    <p>Their performances blend atmospheric intensity with raw emotion, leaving audiences lost in the moment.</p>
-
-    <p>With a passion for sonic exploration and heartfelt expression, SCRLETT connects deeply through both music and performance.</p>
+    SCRLETT is a shoegaze band known for their immersive soundscapes and emotionally charged melodies. They craft dreamy, layered textures that draw listeners in and create a captivating live experience. Their performances are a blend of atmospheric intensity and raw emotion.
   </div>
 </section>
 
+<!-- MERCH -->
 <section id="merch">
   <div class="label">MERCH</div>
 
-  <div class="merch-card">
-    <div class="badge">LIMITED EDITION</div>
+  <div class="merch">
+    <div class="cover"></div>
 
-    <div class="merch-title">“Vacant” Cassette</div>
+    <div>
+      <div class="badge">LIMITED EDITION CASSETTE</div>
+      <h2>“Vacant” Seafoam Green</h2>
+      <p style="color:var(--muted);line-height:1.8;margin-top:1rem;">
+        Extremely limited physical release. No repress.
+      </p>
 
-    <div class="merch-desc">
-      A limited-run cassette release available in seafoam green.
-      Physical copies are extremely limited and will not be repressed.
+      <a class="buy" href="https://cavemantapes.bandcamp.com/merch/scrlett-vacant-cassette-very-limited-seafoam-green" target="_blank">
+        BUY NOW
+      </a>
     </div>
-
-    <a class="merch-link"
-       href="https://cavemantapes.bandcamp.com/merch/scrlett-vacant-cassette-very-limited-seafoam-green"
-       target="_blank">
-      BUY NOW
-    </a>
   </div>
 </section>
 
+<!-- LINKS -->
 <section id="links">
   <div class="label">PLATFORMS</div>
 
   <div class="grid">
-    <a href="https://open.spotify.com/artist/349xAeNyeg9stYTykmU4RN" target="_blank">Spotify</a>
-    <a href="https://music.apple.com/us/artist/scrlett/1710991403" target="_blank">Apple Music</a>
-    <a href="https://scrlett.bandcamp.com/" target="_blank">Bandcamp</a>
-    <a href="https://www.youtube.com/@Scrlettband" target="_blank">YouTube</a>
-    <a href="https://www.instagram.com/scrlettband/" target="_blank">Instagram</a>
-    <a href="https://cavemantapes.bandcamp.com/merch/scrlett-vacant-cassette-very-limited-seafoam-green" target="_blank">Cassette</a>
-  </div>
-</section>
-
-<section id="booking">
-  <div class="label">BOOKING</div>
-
-  <div class="booking">
-    <p>For booking inquiries contact:</p>
-    <p style="margin-top:1rem;font-family:Space Mono;color:var(--accent)">
-      @Scrlettband (Instagram)
-    </p>
+    <a href="https://open.spotify.com/artist/349xAeNyeg9stYTykmU4RN">Spotify</a>
+    <a href="https://music.apple.com/us/artist/scrlett/1710991403">Apple Music</a>
+    <a href="https://scrlett.bandcamp.com/">Bandcamp</a>
+    <a href="https://www.instagram.com/scrlettband/">Instagram</a>
   </div>
 </section>
 
 </body>
 </html>
-   
